@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#EDE6DA;font-family:'DM Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#B85C38;text-decoration:none}a:hover{color:#8F4526}
+*{box-sizing:border-box}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+input[type=number]{-moz-appearance:textfield;appearance:textfield}
+</style>
+</helmet>
+
+<div style="height:100vh;min-width:1080px;display:flex;flex-direction:column;background:#FAF6EF">
+
+<div style="flex:1;min-height:0;display:flex;background:#FAF6EF">
+
+<div style="width:232px;flex:none;background:#2A241E;padding:22px 16px;display:flex;flex-direction:column;gap:26px;overflow-y:auto">
+<div style="display:flex;flex-direction:column;gap:2px;padding:0 8px">
+<div style="font-family:'Newsreader',serif;font-size:19px;color:#FAF6EF;line-height:1.15">Books &amp;<br>Boardgame</div>
+<div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8C7C68;font-weight:700;margin-top:6px">Tower B shelf</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:3px">
+<sc-for list="{{ navs }}" as="n" hint-placeholder-count="4">
+<div onClick="{{ n.pick }}" style="display:flex;align-items:center;justify-content:space-between;padding:11px 12px;border-radius:10px;cursor:pointer;background:{{ n.bg }}">
+<span style="font-size:13.5px;font-weight:600;color:{{ n.fg }}">{{ n.label }}</span>
+<span style="font-size:11.5px;color:{{ n.cfg }}">{{ n.count }}</span>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:auto;padding:14px;border-radius:12px;background:#37302A;display:flex;flex-direction:column;gap:4px">
+<div style="font-size:12px;font-weight:700;color:#FAF6EF">Handover windows</div>
+<div style="font-size:11.5px;color:#A2937E;line-height:1.5">7–8 am &amp; 7–8 pm daily, lobby shelf</div>
+</div>
+<div style="display:flex;align-items:center;gap:10px;padding:0 4px">
+<div style="width:32px;height:32px;border-radius:50%;background:#DCC9B0;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:700;color:#5C4A38">MK</div>
+<div style="display:flex;flex-direction:column"><span style="font-size:12.5px;font-weight:600;color:#FAF6EF">Meera K.</span><span style="font-size:11px;color:#8C7C68">Shelf keeper</span></div>
+</div>
+</div>
+
+<div style="flex:1;display:flex;flex-direction:column;min-width:0">
+<div style="height:70px;flex:none;border-bottom:1px solid #E4D9C8;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0 26px">
+<div style="display:flex;flex-direction:column;gap:1px;flex:none;white-space:nowrap">
+<div style="font-family:'Newsreader',serif;font-size:22px;color:#2A241E">{{ pageTitle }}</div>
+<div style="font-size:12px;color:#8A7A66">{{ pageSub }}</div>
+</div>
+<div style="display:flex;align-items:center;gap:10px">
+<div style="display:flex;align-items:center;gap:9px;height:38px;padding:0 13px;background:#FFF;border:1px solid #E4D9C8;border-radius:10px;min-width:240px">
+<div style="width:13px;height:13px;border:2px solid #A8977F;border-radius:50%"></div>
+<input value="{{ q }}" onChange="{{ onQ }}" placeholder="Search items, renters…" style="flex:1;border:0;outline:0;background:transparent;font-family:'DM Sans',sans-serif;font-size:13px;color:#2A241E">
+</div>
+<div onClick="{{ addItem }}" style="height:38px;flex:none;padding:0 16px;border-radius:10px;background:{{ accent }};display:flex;align-items:center;white-space:nowrap;font-size:13px;font-weight:600;color:#FFF;cursor:pointer">+ Add item</div>
+</div>
+</div>
+
+<div style="flex:1;overflow-y:auto;padding:24px 26px 30px">
+
+<sc-if value="{{ isDash }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:22px">
+<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px">
+<sc-for list="{{ stats }}" as="st" hint-placeholder-count="5">
+<div style="padding:16px;border-radius:14px;background:{{ st.bg }};border:1px solid {{ st.bd }};display:flex;flex-direction:column;gap:5px">
+<div style="font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:#8A7A66;font-weight:700">{{ st.label }}</div>
+<div style="font-family:'Newsreader',serif;font-size:34px;line-height:1;color:{{ st.ink }}">{{ st.value }}</div>
+<div style="font-size:11.5px;color:#8A7A66">{{ st.note }}</div>
+</div>
+</sc-for>
+</div>
+
+<div style="display:grid;grid-template-columns:1.35fr 1fr;gap:16px">
+<div style="border:1px solid #E4D9C8;border-radius:16px;background:#FFF;overflow:hidden">
+<div style="padding:15px 18px;border-bottom:1px solid #F0E7D9;display:flex;align-items:center;justify-content:space-between">
+<div style="font-size:14px;font-weight:700;color:#2A241E">Due in the next 3 days</div>
+<div onClick="{{ goRentals }}" style="font-size:12px;font-weight:600;color:#B85C38;cursor:pointer">All rentals</div>
+</div>
+<sc-for list="{{ dueSoon }}" as="r" hint-placeholder-count="4">
+<div style="padding:13px 18px;border-bottom:1px solid #F5EEE3;display:flex;align-items:center;gap:14px">
+<div style="width:36px;height:44px;flex:none;border-radius:7px;background:{{ r.cover }}"></div>
+<div style="flex:1;min-width:0"><div style="font-size:13.5px;font-weight:600;color:#2A241E;white-space:nowrap">{{ r.title }}</div><div style="font-size:11.5px;color:#8A7A66;white-space:nowrap">{{ r.renter }} · {{ r.unit }}</div></div>
+<div style="font-size:12.5px;color:#5C4A38;width:120px;flex:none;white-space:nowrap">{{ r.due }}</div>
+<div style="flex:none;padding:4px 10px;border-radius:999px;background:{{ r.badgeBg }};font-size:10.5px;font-weight:700;color:{{ r.badgeInk }};white-space:nowrap">{{ r.badge }}</div>
+</div>
+</sc-for>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:16px">
+<div style="border:1px solid #E4D9C8;border-radius:16px;background:#FFF;padding:18px;display:flex;flex-direction:column;gap:14px">
+<div style="font-size:14px;font-weight:700;color:#2A241E">Tonight's handover · 7–8 pm</div>
+<sc-for list="{{ handover }}" as="h" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:12px">
+<div style="width:8px;height:8px;border-radius:50%;background:{{ h.dot }};flex:none"></div>
+<div style="flex:1"><div style="font-size:13px;font-weight:600;color:#2A241E">{{ h.title }}</div><div style="font-size:11.5px;color:#8A7A66">{{ h.who }}</div></div>
+<div style="font-size:11.5px;font-weight:700;color:{{ h.dot }}">{{ h.kind }}</div>
+</div>
+</sc-for>
+</div>
+<div style="border:1px solid #E4D9C8;border-radius:16px;background:#F2EBDF;padding:18px;display:flex;flex-direction:column;gap:10px">
+<div style="font-size:14px;font-weight:700;color:#2A241E">Collection health</div>
+<sc-for list="{{ health }}" as="h" hint-placeholder-count="3">
+<div style="display:flex;flex-direction:column;gap:5px">
+<div style="display:flex;justify-content:space-between;font-size:12.5px"><span style="color:#7A6B5A">{{ h.label }}</span><span style="color:#2A241E;font-weight:600">{{ h.value }}</span></div>
+<div style="height:6px;border-radius:3px;background:#E4D9C8;overflow:hidden"><div style="height:6px;border-radius:3px;background:{{ h.ink }};width:{{ h.pct }}"></div></div>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isInventory }}">
+<div style="display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;gap:8px">
+<sc-for list="{{ invFilters }}" as="f" hint-placeholder-count="4">
+<div onClick="{{ f.pick }}" style="padding:8px 14px;border-radius:999px;font-size:12.5px;font-weight:600;cursor:pointer;background:{{ f.bg }};color:{{ f.fg }};border:1px solid {{ f.bd }}">{{ f.label }}</div>
+</sc-for>
+</div>
+<div style="border:1px solid #E4D9C8;border-radius:16px;background:#FFF;overflow:hidden">
+<div style="display:grid;grid-template-columns:2.2fr .9fr 1.5fr 1.5fr 1fr 1.3fr 1fr 1.1fr;gap:12px;padding:12px 18px;background:#F7F1E7;border-bottom:1px solid #E4D9C8">
+<sc-for list="{{ invCols }}" as="c" hint-placeholder-count="8">
+<div style="font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:#8A7A66;font-weight:700">{{ c }}</div>
+</sc-for>
+</div>
+<sc-for list="{{ inventory }}" as="i" hint-placeholder-count="8">
+<div style="display:grid;grid-template-columns:2.2fr .9fr 1.5fr 1.5fr 1fr 1.3fr 1fr 1.1fr;gap:12px;padding:12px 18px;border-bottom:1px solid #F5EEE3;align-items:center">
+<div style="display:flex;align-items:center;gap:11px;min-width:0">
+<div style="width:32px;height:40px;flex:none;border-radius:6px;background:{{ i.cover }}"></div>
+<div style="min-width:0"><div style="font-size:13.5px;font-weight:600;color:#2A241E;white-space:nowrap">{{ i.title }}</div><div style="font-size:11px;color:#A8977F;white-space:nowrap">{{ i.sub }}</div></div>
+</div>
+<div style="font-size:12.5px;color:#5C4A38;white-space:nowrap">{{ i.type }}</div>
+<div style="display:flex;align-items:center;gap:5px;height:32px;padding:0 9px;border:1px solid #E4D9C8;border-radius:8px;background:#FFF">
+<input type="text" inputMode="numeric" value="{{ i.deposit }}" onChange="{{ i.onDeposit }}" onBlur="{{ i.savePrice }}" style="width:100%;min-width:0;border:0;outline:0;background:transparent;font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:600;color:#2A241E">
+<span style="font-size:11.5px;color:#A8977F">฿</span>
+</div>
+<div style="display:flex;align-items:center;gap:5px;height:32px;padding:0 9px;border:1px solid #E4D9C8;border-radius:8px;background:#FFF">
+<input type="text" inputMode="numeric" value="{{ i.rate }}" onChange="{{ i.onRate }}" onBlur="{{ i.savePrice }}" style="width:100%;min-width:0;border:0;outline:0;background:transparent;font-family:'DM Sans',sans-serif;font-size:12.5px;color:#5C4A38">
+<span style="font-size:11.5px;color:#A8977F">฿</span>
+</div>
+<div><span style="padding:4px 10px;border-radius:999px;background:{{ i.badgeBg }};font-size:10.5px;font-weight:700;color:{{ i.badgeInk }};white-space:nowrap">{{ i.badge }}</span></div>
+<div style="font-size:12.5px;color:#5C4A38;white-space:nowrap">{{ i.renter }}</div>
+<div style="font-size:12.5px;color:#5C4A38;white-space:nowrap">{{ i.due }}</div>
+<div style="display:flex;gap:8px;white-space:nowrap">
+<div onClick="{{ i.toggle }}" style="font-size:12px;font-weight:600;color:#B85C38;cursor:pointer">{{ i.action }}</div>
+<div onClick="{{ i.edit }}" style="font-size:12px;font-weight:600;color:#8A7A66;cursor:pointer">Edit</div>
+</div>
+</div>
+</sc-for>
+<sc-if value="{{ invEmpty }}">
+<div style="padding:50px;text-align:center;display:flex;flex-direction:column;gap:6px;align-items:center">
+<div style="font-family:'Newsreader',serif;font-size:19px;color:#2A241E">Nothing here</div>
+<div style="font-size:12.5px;color:#8A7A66">No items match this filter or search.</div>
+</div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isRentals }}">
+<div style="border:1px solid #E4D9C8;border-radius:16px;background:#FFF;overflow:hidden">
+<div style="display:grid;grid-template-columns:1.4fr 1.8fr 1fr 1.2fr 1fr .9fr;gap:12px;padding:12px 18px;background:#F7F1E7;border-bottom:1px solid #E4D9C8">
+<sc-for list="{{ rentCols }}" as="c" hint-placeholder-count="6">
+<div style="font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:#8A7A66;font-weight:700">{{ c }}</div>
+</sc-for>
+</div>
+<sc-for list="{{ rentals }}" as="r" hint-placeholder-count="6">
+<div style="display:grid;grid-template-columns:1.4fr 1.8fr 1fr 1.2fr 1fr .9fr;gap:12px;padding:13px 18px;border-bottom:1px solid #F5EEE3;align-items:center">
+<div style="white-space:nowrap"><div style="font-size:13.5px;font-weight:600;color:#2A241E">{{ r.renter }}</div><div style="font-size:11px;color:#A8977F">{{ r.unit }}</div></div>
+<div style="display:flex;align-items:center;gap:10px"><div style="width:26px;height:32px;border-radius:5px;background:{{ r.cover }};flex:none"></div><div style="font-size:13px;color:#2A241E;white-space:nowrap">{{ r.title }}</div></div>
+<div style="font-size:12.5px;color:#5C4A38;white-space:nowrap">{{ r.rented }}</div>
+<div style="font-size:12.5px;color:#5C4A38;white-space:nowrap">{{ r.due }}</div>
+<div><span style="padding:4px 10px;border-radius:999px;background:{{ r.badgeBg }};font-size:10.5px;font-weight:700;color:{{ r.badgeInk }};white-space:nowrap">{{ r.badge }}</span></div>
+<div onClick="{{ r.markReturned }}" style="font-size:12px;font-weight:600;white-space:nowrap;color:{{ r.actionInk }};cursor:pointer">{{ r.action }}</div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ isUsers }}">
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+<sc-for list="{{ users }}" as="u" hint-placeholder-count="6">
+<div style="border:1px solid #E4D9C8;border-radius:16px;background:#FFF;padding:18px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:12px">
+<div style="width:42px;height:42px;border-radius:50%;background:#DCC9B0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#5C4A38">{{ u.initials }}</div>
+<div><div style="font-size:14.5px;font-weight:600;color:#2A241E">{{ u.name }}</div><div style="font-size:12px;color:#8A7A66">{{ u.unit }}</div></div>
+</div>
+<div style="display:flex;gap:10px">
+<div style="flex:1;padding:10px 12px;border-radius:10px;background:#F7F1E7"><div style="font-family:'Newsreader',serif;font-size:20px;color:#2A241E">{{ u.current }}</div><div style="font-size:11px;color:#8A7A66">Out now</div></div>
+<div style="flex:1;padding:10px 12px;border-radius:10px;background:#F7F1E7"><div style="font-family:'Newsreader',serif;font-size:20px;color:#2A241E">{{ u.total }}</div><div style="font-size:11px;color:#8A7A66">All time</div></div>
+</div>
+<div style="font-size:12px;color:#7A6B5A;line-height:1.5">{{ u.last }}</div>
+<div style="display:flex;align-items:center;gap:7px"><div style="width:7px;height:7px;border-radius:50%;background:{{ u.dot }}"></div><div style="font-size:12px;font-weight:600;color:{{ u.dot }}">{{ u.state }}</div></div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+</div>
+</div>
+</div>
+
+<sc-if value="{{ addOpen }}">
+<div onClick="{{ closeAdd }}" style="position:fixed;inset:0;z-index:30;background:rgba(42,36,30,0.42);display:flex;align-items:center;justify-content:center;padding:40px">
+<div onClick="{{ stop }}" style="width:520px;max-width:100%;background:#FDFAF4;border:1px solid #E4D9C8;border-radius:18px;padding:26px 28px 24px;display:flex;flex-direction:column;gap:18px;box-shadow:0 30px 70px rgba(42,36,30,0.28)">
+<div style="display:flex;flex-direction:column;gap:4px">
+<div style="font-family:'Newsreader',serif;font-size:24px;color:#2A241E">Add an item</div>
+<div style="font-family:'DM Sans',sans-serif;font-size:13px;color:#7A6B5A">It goes straight onto the shelf and into the neighbours' app.</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;color:#8A7A66">TITLE</div>
+<input value="{{ fTitle }}" onChange="{{ onTitle }}" placeholder="Wingspan" style="height:42px;padding:0 13px;border:1px solid #E4D9C8;border-radius:10px;background:#FFFFFF;outline:0;font-family:'DM Sans',sans-serif;font-size:14px;color:#2A241E" />
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;color:#8A7A66">DETAIL</div>
+<input value="{{ fSub }}" onChange="{{ onSub }}" placeholder="Engine-building · 1–5" style="height:42px;padding:0 13px;border:1px solid #E4D9C8;border-radius:10px;background:#FFFFFF;outline:0;font-family:'DM Sans',sans-serif;font-size:14px;color:#2A241E" />
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;color:#8A7A66">TYPE</div>
+<div style="display:flex;gap:8px">
+<sc-for list="{{ typeOpts }}" as="t" hint-placeholder-count="2">
+<div onClick="{{ t.pick }}" style="padding:9px 16px;border-radius:9px;border:1px solid {{ t.bd }};background:{{ t.bg }};color:{{ t.fg }};font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer">{{ t.label }}</div>
+</sc-for>
+</div>
+</div>
+<div style="display:flex;gap:14px">
+<div style="flex:1;display:flex;flex-direction:column;gap:6px">
+<div style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;color:#8A7A66">DEPOSIT (฿)</div>
+<input value="{{ fDeposit }}" onChange="{{ onDeposit }}" style="height:42px;padding:0 13px;border:1px solid #E4D9C8;border-radius:10px;background:#FFFFFF;outline:0;font-family:'DM Sans',sans-serif;font-size:14px;color:#2A241E" />
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:6px">
+<div style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;color:#8A7A66">RATE / DAY (฿)</div>
+<input value="{{ fRate }}" onChange="{{ onRate }}" style="height:42px;padding:0 13px;border:1px solid #E4D9C8;border-radius:10px;background:#FFFFFF;outline:0;font-family:'DM Sans',sans-serif;font-size:14px;color:#2A241E" />
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;color:#8A7A66">COVER</div>
+<div style="display:flex;gap:10px">
+<sc-for list="{{ coverOpts }}" as="c" hint-placeholder-count="6">
+<div onClick="{{ c.pick }}" style="width:38px;height:48px;border-radius:6px;background:{{ c.hex }};box-shadow:0 0 0 {{ c.ring }} #2A241E;cursor:pointer"></div>
+</sc-for>
+</div>
+</div>
+<div style="display:flex;justify-content:flex-end;gap:10px;padding-top:2px">
+<div onClick="{{ closeAdd }}" style="height:40px;padding:0 18px;border-radius:10px;border:1px solid #E4D9C8;display:flex;align-items:center;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:#5C4A38;cursor:pointer">Cancel</div>
+<div onClick="{{ saveNew }}" style="height:40px;padding:0 20px;border-radius:10px;background:{{ saveBg }};display:flex;align-items:center;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:#FAF6EF;cursor:pointer">Add to collection</div>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ toast }}">
+<div style="position:fixed;left:50%;transform:translateX(-50%);bottom:30px;z-index:20;padding:13px 18px;border-radius:12px;background:#2A241E;color:#FAF6EF;font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px;animation:pop .25s ease">
+<div style="width:7px;height:7px;border-radius:50%;background:#7FBF92"></div>{{ toast }}
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#B85C38&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#B85C38&quot;,&quot;#3F7D52&quot;,&quot;#8A6A3B&quot;,&quot;#2A241E&quot;],&quot;section&quot;:&quot;Theme&quot;}}">
+const COVERS = {
+  codenames:'#D9C4A9', azul:'#B9C7C9', ticket:'#C9A88C', carcassonne:'#CBBE9B', dixit:'#C7B3C4', sushigo:'#E0BBA6',
+  midnight:'#A9B8C4', atomic:'#C6C2A9', alchemist:'#DCC49B', norwegian:'#B0B9A5', hailmary:'#B7AEC7'
+};
+const ITEMS = [
+  { id:'codenames', title:'Codenames', sub:'Party · 2–8', type:'Board Game', status:'out', renter:'Priya Raman', unit:'B · 12-04', rented:'Aug 10', due:'Sun, Aug 16', days:3 },
+  { id:'azul', title:'Azul', sub:'Abstract · 2–4', type:'Board Game', status:'out', renter:'Daniel Ong', unit:'B · 04-11', rented:'Aug 8', due:'Sat, Aug 15', days:2 },
+  { id:'ticket', title:'Ticket to Ride', sub:'Family · 2–5', type:'Board Game', status:'out', renter:'Hui Ling', unit:'A · 09-02', rented:'Aug 6', due:'Thu, Aug 13', days:0 },
+  { id:'dixit', title:'Dixit', sub:'Party · 3–6', type:'Board Game', status:'overdue', renter:'Marcus Tan', unit:'B · 07-08', rented:'Aug 1', due:'Thu, Aug 7', days:-6 },
+  { id:'carcassonne', title:'Carcassonne', sub:'Tile-laying · 2–5', type:'Board Game', status:'shelf', renter:'—', due:'—' },
+  { id:'sushigo', title:'Sushi Go!', sub:'Card · 2–5', type:'Board Game', status:'shelf', renter:'—', due:'—' },
+  { id:'midnight', title:'The Midnight Library', sub:'Matt Haig', type:'Book', status:'out', renter:'Aisha Rahman', unit:'A · 15-06', rented:'Aug 10', due:'Mon, Aug 17', days:4 },
+  { id:'atomic', title:'Atomic Habits', sub:'James Clear', type:'Book', status:'out', renter:'Wei Jie', unit:'B · 02-09', rented:'Aug 11', due:'Tue, Aug 18', days:5 },
+  { id:'alchemist', title:'The Alchemist', sub:'Paulo Coelho', type:'Book', status:'shelf', renter:'—', due:'—' },
+  { id:'norwegian', title:'Norwegian Wood', sub:'Haruki Murakami', type:'Book', status:'shelf', renter:'—', due:'—' },
+  { id:'hailmary', title:'Project Hail Mary', sub:'Andy Weir', type:'Book', status:'repair', renter:'—', due:'—' }
+];
+const PRICE = {
+  codenames:[750,20], azul:[1350,30], ticket:[1600,35], carcassonne:[1200,30], dixit:[1100,25], sushigo:[450,15],
+  midnight:[420,10], atomic:[520,10], alchemist:[320,8], norwegian:[380,8], hailmary:[560,12]
+};
+const baht = n => n.toLocaleString('en-US') + ' ฿';
+
+/* shared database with the mobile app */
+const DB_KEY = 'bb_db';
+const readDB = () => { try { return JSON.parse(localStorage.getItem(DB_KEY)) || {}; } catch (e) { return {}; } };
+const writeDB = patch => {
+  const db = readDB();
+  const next = Object.assign({}, db, patch, {
+    prices: Object.assign({}, db.prices, patch.prices),
+    items: Object.assign({}, db.items, patch.items)
+  });
+  try { localStorage.setItem(DB_KEY, JSON.stringify(next)); } catch (e) {}
+  return next;
+};
+
+const USERS = [
+  { name:'Priya Raman', unit:'Tower B · 12-04', current:1, total:14, last:'Last returned Sushi Go! on Jul 28 · always on time.', state:'In good standing' },
+  { name:'Daniel Ong', unit:'Tower B · 04-11', current:1, total:9, last:'Azul due Sat, Aug 15 — first reminder sent.', state:'Due soon' },
+  { name:'Marcus Tan', unit:'Tower B · 07-08', current:1, total:6, last:'Dixit is 6 days overdue · two reminders sent.', state:'Overdue' },
+  { name:'Aisha Rahman', unit:'Tower A · 15-06', current:1, total:21, last:'Most active borrower in the building this quarter.', state:'In good standing' },
+  { name:'Hui Ling', unit:'Tower A · 09-02', current:1, total:4, last:'Ticket to Ride due tonight, 7–8 pm handover.', state:'Due soon' },
+  { name:'Wei Jie', unit:'Tower B · 02-09', current:1, total:11, last:'Atomic Habits out until Tue, Aug 18.', state:'In good standing' }
+];
+const BADGE = {
+  shelf:  { label:'ON SHELF', bg:'#E4EFE5', ink:'#3F7D52' },
+  out:    { label:'RENTED',   bg:'#F0EBE2', ink:'#7A6B5A' },
+  soon:   { label:'DUE SOON', bg:'#F7EEDA', ink:'#9A6A18' },
+  overdue:{ label:'OVERDUE',  bg:'#F7E2DE', ink:'#B03A2E' },
+  repair: { label:'REPAIR',   bg:'#EDE7F0', ink:'#6B5A80' }
+};
+
+class Component extends DCLogic {
+  state = { page: 'dash', q: '', invFilter: 'All', items: this.mergeItems(readDB().items, readDB().custom), toast: null, prices: Object.assign({}, PRICE, readDB().prices), editing: null,
+    addOpen: false, form: { title:'', sub:'', type:'Board Game', deposit:'800', rate:'20', cover:'#C9A88C' } };
+
+  mergeItems(ov, custom) {
+    ov = ov || {};
+    return ITEMS.concat(custom || []).map(i => ov[i.id] ? Object.assign({}, i, ov[i.id]) : i);
+  }
+  setForm(k, v) { this.setState(st => ({ form: Object.assign({}, st.form, { [k]: v }) })); }
+  saveNew() {
+    const f = this.state.form;
+    const title = f.title.trim();
+    if (!title) return this.flash('Give the item a title first.');
+    const num = v => Math.max(0, parseInt(String(v).replace(/[^0-9]/g, ''), 10) || 0);
+    const base = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'item';
+    let id = base, n = 2;
+    while (this.state.items.some(i => i.id === id)) id = base + '-' + n++;
+    const rec = { id, title, sub: f.sub.trim() || (f.type === 'Book' ? 'Book' : 'Board game'), type: f.type, cover: f.cover, status:'shelf', renter:'—', due:'—' };
+    const prices = Object.assign({}, this.state.prices, { [id]: [num(f.deposit), num(f.rate)] });
+    const db = readDB();
+    writeDB({ custom: (db.custom || []).concat([rec]), prices });
+    this.setState(st => ({ items: st.items.concat([rec]), prices, addOpen: false, page: 'inventory',
+      form: { title:'', sub:'', type:'Board Game', deposit:'800', rate:'20', cover:'#C9A88C' } }));
+    this.flash(title + ' added to the collection.');
+  }
+  componentDidMount() {
+    const sync = () => {
+      const db = readDB();
+      this.setState({ items: this.mergeItems(db.items, db.custom), prices: Object.assign({}, PRICE, db.prices) });
+    };
+    sync();
+    this._onStore = e => { if (!e.key || e.key === DB_KEY) sync(); };
+    window.addEventListener('storage', this._onStore);
+    this._poll = setInterval(sync, 1200);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('storage', this._onStore);
+    clearInterval(this._poll);
+  }
+  patchItem(id, fields) {
+    writeDB({ items: { [id]: fields } });
+    const base = ITEMS.concat(readDB().custom || []).find(x => x.id === id);
+    this.setState(st => ({ items: st.items.map(x => x.id === id ? Object.assign({}, base, fields) : x) }));
+  }
+
+  setPrice(id, idx, raw) {
+    const n = Math.max(0, parseInt(String(raw).replace(/[^0-9]/g, ''), 10) || 0);
+    this.setState(st => {
+      const cur = (st.prices[id] || [500, 10]).slice();
+      cur[idx] = n;
+      const prices = Object.assign({}, st.prices, { [id]: cur });
+      writeDB({ prices });
+      return { prices };
+    });
+  }
+
+  flash(msg) { clearTimeout(this._t); this.setState({ toast: msg }); this._t = setTimeout(() => this.setState({ toast: null }), 2400); }
+  badgeOf(i) {
+    if (i.status === 'out' && i.days <= 2) return BADGE.soon;
+    if (i.status === 'overdue') return BADGE.overdue;
+    return BADGE[i.status] || BADGE.out;
+  }
+
+  renderVals() {
+    const s = this.state;
+    const accent = this.props.accent || '#B85C38';
+    const items = s.items;
+    const q = s.q.trim().toLowerCase();
+    const out = items.filter(i => i.status === 'out' || i.status === 'overdue');
+    const chip = on => ({ bg: on ? '#2A241E' : '#FFFFFF', fg: on ? '#FAF6EF' : '#5C4A38', bd: on ? '#2A241E' : '#E4D9C8' });
+    const pct = n => Math.round(n / items.length * 100) + '%';
+
+    const match = i => (!q || (i.title + ' ' + (i.renter || '') + ' ' + i.sub).toLowerCase().indexOf(q) > -1);
+    const invFiltered = items.filter(i => match(i) && (
+      s.invFilter === 'All' ? true :
+      s.invFilter === 'On shelf' ? i.status === 'shelf' :
+      s.invFilter === 'Rented' ? i.status === 'out' :
+      s.invFilter === 'Overdue' ? i.status === 'overdue' : i.status === 'repair'));
+
+    const pages = { dash:'Dashboard', inventory:'Inventory', rentals:'Rentals', users:'Users' };
+    const subs = {
+      dash: 'Thursday, 13 August 2026 · next handover 7–8 pm',
+      inventory: items.length + ' items in the collection',
+      rentals: out.length + ' rentals out right now',
+      users: USERS.length + ' neighbours registered'
+    };
+
+    const rentalRows = out.filter(i => match(i)).map(i => {
+      const b = this.badgeOf(i);
+      return {
+        renter: i.renter, unit: i.unit, title: i.title, cover: COVERS[i.id] || i.cover,
+        rented: i.rented || '—', due: i.due,
+        badge: b.label, badgeBg: b.bg, badgeInk: b.ink,
+        action: 'Mark returned', actionInk: accent,
+        markReturned: () => {
+          this.patchItem(i.id, { status:'shelf', renter:'—', due:'—' });
+          this.flash(i.title + ' is back on the shelf.');
+        }
+      };
+    });
+
+    return {
+      accent, q: s.q, onQ: e => this.setState({ q: e.target.value }),
+      pageTitle: pages[s.page], pageSub: subs[s.page],
+      isDash: s.page === 'dash', isInventory: s.page === 'inventory', isRentals: s.page === 'rentals', isUsers: s.page === 'users',
+      navs: [['dash','Dashboard',''],['inventory','Inventory',String(items.length)],['rentals','Rentals',String(out.length)],['users','Users',String(USERS.length)]].map(([id,label,count]) => ({
+        label, count, bg: s.page === id ? '#413931' : 'transparent',
+        fg: s.page === id ? '#FAF6EF' : '#B5A794', cfg: s.page === id ? '#B5A794' : '#7A6C5A',
+        pick: () => this.setState({ page: id })
+      })),
+      addItem: () => this.setState({ addOpen: true }),
+      addOpen: s.addOpen, closeAdd: () => this.setState({ addOpen: false }), stop: e => e.stopPropagation(),
+      fTitle: s.form.title, fSub: s.form.sub, fDeposit: s.form.deposit, fRate: s.form.rate,
+      onTitle: e => this.setForm('title', e.target.value), onSub: e => this.setForm('sub', e.target.value),
+      onDeposit: e => this.setForm('deposit', e.target.value), onRate: e => this.setForm('rate', e.target.value),
+      typeOpts: ['Board Game','Book'].map(l => Object.assign({ label:l, pick: () => this.setForm('type', l) }, chip(s.form.type === l))),
+      coverOpts: ['#C9A88C','#B9C7C9','#CBBE9B','#C7B3C4','#A9B8C4','#DCC49B','#B0B9A5'].map(hex => ({ hex, ring: s.form.cover === hex ? '2px' : '0px', pick: () => this.setForm('cover', hex) })),
+      saveBg: s.form.title.trim() ? accent : '#C6B7A3',
+      saveNew: () => this.saveNew(),
+      goRentals: () => this.setState({ page: 'rentals' }),
+
+      stats: [
+        { label:'Out now', value: String(out.length), note:'across 6 homes', bg:'#FFFFFF', bd:'#E4D9C8', ink:'#2A241E' },
+        { label:'On shelf', value: String(items.filter(i => i.status === 'shelf').length), note:'ready to rent', bg:'#E9F1E9', bd:'#D3E3D5', ink:'#3F7D52' },
+        { label:'Due soon', value: String(items.filter(i => i.status === 'out' && i.days <= 2).length), note:'next 3 days', bg:'#F7EFDD', bd:'#EADCBE', ink:'#9A6A18' },
+        { label:'Overdue', value: String(items.filter(i => i.status === 'overdue').length), note:'reminder sent', bg:'#F8E5E1', bd:'#EDCDC5', ink:'#B03A2E' },
+        { label:'Total items', value: String(items.length), note:'1 in repair', bg:'#FFFFFF', bd:'#E4D9C8', ink:'#2A241E' }
+      ],
+      dueSoon: items.filter(i => (i.status === 'out' && i.days <= 4) || i.status === 'overdue').map(i => {
+        const b = this.badgeOf(i);
+        return { title:i.title, renter:i.renter, unit:i.unit, due:i.due, cover:COVERS[i.id] || i.cover, badge:b.label, badgeBg:b.bg, badgeInk:b.ink };
+      }),
+      handover: [
+        { title:'Ticket to Ride', who:'Hui Ling returning · A 09-02', kind:'RETURN', dot:'#3F7D52' },
+        { title:'Codenames', who:'Priya Raman collecting · B 12-04', kind:'PICKUP', dot:'#B85C38' },
+        { title:'Dixit', who:'Marcus Tan — chase overdue', kind:'CHASE', dot:'#B03A2E' }
+      ],
+      health: [
+        { label:'Board games out', value: out.filter(i => i.type === 'Board Game').length + ' of 6', ink:'#B85C38', pct: pct(out.filter(i => i.type === 'Board Game').length) },
+        { label:'Books out', value: out.filter(i => i.type === 'Book').length + ' of 5', ink:'#3F7D52', pct: pct(out.filter(i => i.type === 'Book').length) },
+        { label:'Returned on time', value:'92%', ink:'#8A6A3B', pct:'92%' }
+      ],
+
+      invFilters: ['All','On shelf','Rented','Overdue','Repair'].map(l => Object.assign({ label:l, pick: () => this.setState({ invFilter:l }) }, chip(s.invFilter === l))),
+      invCols: ['Item','Type','Deposit','Rate / day','Status','Current renter','Return date','Actions'],
+      invEmpty: invFiltered.length === 0,
+      inventory: invFiltered.map(i => {
+        const b = this.badgeOf(i);
+        const onShelf = i.status === 'shelf';
+        return {
+          title:i.title, sub:i.sub, type:i.type, cover:COVERS[i.id] || i.cover,
+          deposit: (s.prices[i.id] || [500,10])[0], rate: (s.prices[i.id] || [500,10])[1],
+          onDeposit: e => this.setPrice(i.id, 0, e.target.value),
+          onRate: e => this.setPrice(i.id, 1, e.target.value),
+          savePrice: () => this.flash('บันทึกราคา ' + i.title + ' แล้ว'),
+          renter: i.renter || '—', due: i.due || '—',
+          badge:b.label, badgeBg:b.bg, badgeInk:b.ink,
+          action: onShelf ? 'Mark rented' : 'Mark available',
+          toggle: () => {
+            this.patchItem(i.id, onShelf
+              ? { status:'out', renter:'Walk-in', unit:'—', rented:'Aug 13', due:'Sun, Aug 16', days:3, dueISO: new Date(2026, 7, 16).toISOString() }
+              : { status:'shelf', renter:'—', due:'—' });
+            this.flash(i.title + (onShelf ? ' marked rented.' : ' is back on the shelf.'));
+          },
+          edit: () => this.flash('Editing ' + i.title + '…')
+        };
+      }),
+
+      rentCols: ['Renter','Item','Rented','Return date','Status','Action'],
+      rentals: rentalRows,
+
+      users: USERS.map(u => ({
+        name:u.name, unit:u.unit, current:u.current, total:u.total, last:u.last, state:u.state,
+        initials: u.name.split(' ').map(w => w[0]).join('').slice(0,2),
+        dot: u.state === 'Overdue' ? '#B03A2E' : u.state === 'Due soon' ? '#9A6A18' : '#3F7D52'
+      })),
+
+      toast: s.toast
+    };
+  }
+}
+</script>
+</body>
+</html>
