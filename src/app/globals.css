@@ -1,0 +1,143 @@
+@import "tailwindcss";
+
+:root {
+  /* Canvas */
+  --color-canvas: #faf6ef;
+  --color-canvas-admin: #ede6da;
+
+  /* Surfaces */
+  --color-surface: #ffffff;
+  --color-surface-alt: #f2ebdf;
+  --color-surface-warm: #f6f1e6;
+
+  /* Borders */
+  --color-border: #e4d9c8;
+  --color-border-light: #f0e7d9;
+  --color-border-input: #dccdb6;
+
+  /* Ink */
+  --color-ink: #2a241e;
+  --color-ink-2: #5c4a38;
+  --color-ink-3: #7a6b5a;
+  --color-ink-4: #8a7a66;
+  --color-ink-5: #a8977f;
+
+  /* Accent */
+  --color-accent: #b85c38;
+  --color-accent-hover: #8f4526;
+  --color-accent-dark: #2a241e;
+
+  /* Misc */
+  --color-avatar: #dcc9b0;
+  --color-green: #3f7d52;
+  --color-green-bg: #e4efe5;
+  --color-amber: #9a6a18;
+  --color-amber-bg: #f7eeda;
+  --color-red: #b03a2e;
+  --color-red-bg: #f7e2de;
+  --color-line: #06c755;
+
+  --font-display: var(--font-newsreader), "Noto Serif Thai", var(--font-noto-serif-thai), serif;
+  --font-body: var(--font-dm-sans), "Noto Sans Thai", var(--font-noto-sans-thai), system-ui, sans-serif;
+}
+
+@theme inline {
+  --color-canvas: var(--color-canvas);
+  --color-canvas-admin: var(--color-canvas-admin);
+  --color-surface: var(--color-surface);
+  --color-surface-alt: var(--color-surface-alt);
+  --color-surface-warm: var(--color-surface-warm);
+  --color-border: var(--color-border);
+  --color-border-light: var(--color-border-light);
+  --color-border-input: var(--color-border-input);
+  --color-ink: var(--color-ink);
+  --color-ink-2: var(--color-ink-2);
+  --color-ink-3: var(--color-ink-3);
+  --color-ink-4: var(--color-ink-4);
+  --color-ink-5: var(--color-ink-5);
+  --color-accent: var(--color-accent);
+  --color-accent-hover: var(--color-accent-hover);
+  --color-accent-dark: var(--color-accent-dark);
+  --color-avatar: var(--color-avatar);
+  --color-green: var(--color-green);
+  --color-green-bg: var(--color-green-bg);
+  --color-amber: var(--color-amber);
+  --color-amber-bg: var(--color-amber-bg);
+  --color-red: var(--color-red);
+  --color-red-bg: var(--color-red-bg);
+  --color-line: var(--color-line);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-canvas-admin);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--color-accent-hover);
+}
+
+.scr::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+.row::-webkit-scrollbar {
+  height: 0;
+}
+
+@keyframes up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.anim-up {
+  animation: up 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.anim-fade {
+  animation: fade 0.2s ease;
+}
+.anim-fade-slow {
+  animation: fade 0.3s ease;
+}
+.anim-pop {
+  animation: pop 0.3s ease;
+}
