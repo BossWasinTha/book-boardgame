@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<title>Books &amp; Boardgame — เช่าหนังสือและบอร์ดเกม</title>
+<template id="__bundler_thumbnail" data-bg-color="#FAF6EF">
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+<rect width="1200" height="800" fill="#FAF6EF"/>
+<rect x="430" y="230" width="150" height="340" rx="12" fill="#B85C38"/>
+<rect x="600" y="230" width="150" height="340" rx="12" fill="#3F7D52"/>
+<rect x="770" y="330" width="110" height="240" rx="12" fill="#DCC9B0"/>
+<rect x="320" y="330" width="110" height="240" rx="12" fill="#A9B8C4"/>
+</svg>
+</template>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Serif+Thai:wght@400;500;600&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#EDE6DA;font-family:'DM Sans','Noto Sans Thai',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+#root,#root>div{width:100%;height:100%}
+a{color:#B85C38;text-decoration:none}a:hover{color:#8F4526}
+*{box-sizing:border-box}
+.scr::-webkit-scrollbar{width:0;height:0}
+.row::-webkit-scrollbar{height:0}
+@keyframes up{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes pop{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}
+</style>
+</helmet>
+
+<div style="width:100%;height:100vh;position:relative;overflow:hidden;background:#FAF6EF">
+
+<div class="scr" style="position:absolute;top:0;left:0;right:0;bottom:0;overflow-y:auto;overflow-x:hidden;padding-top:14px">
+
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+<div style="padding:8px 20px 108px;display:flex;flex-direction:column;gap:26px">
+
+<div style="display:flex;align-items:center;justify-content:space-between">
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:19px;color:#2A241E">Books &amp; Boardgame</div>
+<div style="display:flex;align-items:center;gap:10px">
+<div style="position:relative;width:34px;height:34px;border-radius:50%;border:1px solid #E4D9C8;display:flex;align-items:center;justify-content:center;background:#F2EBDF">
+<div style="width:4px;height:4px;border-radius:50%;background:#7A6B5A"></div>
+<div style="position:absolute;top:6px;right:7px;width:7px;height:7px;border-radius:50%;background:#B85C38;border:1.5px solid #FAF6EF"></div>
+</div>
+<div onClick="{{ goProfile }}" style="width:34px;height:34px;border-radius:50%;background:#DCC9B0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#5C4A38;cursor:pointer">{{ initials }}</div>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:12px">
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:33px;line-height:1.25;color:#2A241E;letter-spacing:-.01em;text-wrap:pretty">คืนนี้อยากสนุก<br>กับอะไรดี?</div>
+<div style="font-size:14px;line-height:1.7;color:#7A6B5A;max-width:300px;text-wrap:pretty">ยืมหนังสือหรือบอร์ดเกมจากชั้นวางของเพื่อนบ้าน</div>
+<div onClick="{{ goSearch }}" style="margin-top:2px;display:flex;align-items:center;gap:10px;height:50px;padding:0 16px;background:#FFFFFF;border:1px solid #E4D9C8;border-radius:14px;cursor:pointer;box-shadow:0 1px 2px rgba(60,45,30,.04)">
+<div style="width:15px;height:15px;border:2px solid #A8977F;border-radius:50%;flex:none"></div>
+<span style="font-size:13.5px;color:#A8977F">ค้นหาหนังสือ เกม ผู้เขียน หมวดหมู่…</span>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+<div onClick="{{ goBooks }}" style="grid-column:span 1;height:96px;border-radius:16px;background:#EFE3D2;padding:14px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;border:1px solid #E4D9C8">
+<div style="font-size:20px">📚</div>
+<div><div style="font-size:14px;font-weight:600;color:#2A241E">หนังสือ</div><div style="font-size:11.5px;color:#8A7A66">{{ bookCount }} เล่มบนชั้น</div></div>
+</div>
+<div onClick="{{ goGames }}" style="height:96px;border-radius:16px;background:#E7E1D2;padding:14px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;border:1px solid #E4D9C8">
+<div style="font-size:20px">🎲</div>
+<div><div style="font-size:14px;font-weight:600;color:#2A241E">บอร์ดเกม</div><div style="font-size:11.5px;color:#8A7A66">{{ gameCount }} กล่องพร้อมเล่น</div></div>
+</div>
+<div onClick="{{ goAvailable }}" style="grid-column:span 2;height:62px;border-radius:16px;background:#2A241E;padding:0 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer">
+<div style="display:flex;align-items:center;gap:10px">
+<div style="width:8px;height:8px;border-radius:50%;background:#7FBF92"></div>
+<div style="font-size:14px;font-weight:600;color:#FAF6EF">ว่างให้ยืมตอนนี้</div>
+</div>
+<div style="font-size:12px;color:#BCAE9B">{{ availCount }} รายการ →</div>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;align-items:baseline;justify-content:space-between">
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:21px;color:#2A241E">ว่างสำหรับคืนนี้</div>
+<div onClick="{{ goAvailable }}" style="font-size:12px;color:#B85C38;cursor:pointer;font-weight:500">ดูทั้งหมด</div>
+</div>
+<div class="row" style="display:flex;gap:12px;overflow-x:auto;margin:0 -20px;padding:2px 20px 4px">
+<sc-for list="{{ tonight }}" as="it" hint-placeholder-count="3">
+<div style="flex:none;width:168px;background:#FFFFFF;border:1px solid #E4D9C8;border-radius:16px;overflow:hidden;box-shadow:0 1px 2px rgba(60,45,30,.04)">
+<div onClick="{{ it.open }}" style="height:132px;background:{{ it.cover }};display:flex;align-items:flex-end;padding:12px;cursor:pointer">
+<div style="font-family:'Newsreader',serif;font-size:16px;line-height:1.15;color:{{ it.coverInk }};text-wrap:pretty">{{ it.title }}</div>
+</div>
+<div style="padding:11px 12px 12px;display:flex;flex-direction:column;gap:7px">
+<div onClick="{{ it.open }}" style="cursor:pointer;display:flex;flex-direction:column;gap:3px">
+<div style="font-size:14px;font-weight:600;color:#2A241E;line-height:1.25">{{ it.title }}</div>
+<div style="font-size:11px;color:#A8977F;font-weight:600">{{ it.type }}</div>
+<div style="font-size:11.5px;color:#7A6B5A;line-height:1.5">{{ it.meta }}</div>
+</div>
+<div style="display:flex;align-items:center;gap:5px">
+<div style="width:6px;height:6px;border-radius:50%;background:{{ it.dot }}"></div>
+<div style="font-size:11px;font-weight:600;color:{{ it.statusInk }}">{{ it.statusLabel }}</div>
+</div>
+<div onClick="{{ it.rent }}" style="margin-top:2px;height:34px;border-radius:10px;background:{{ accent }};display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#FFF;cursor:pointer">ยืมเลย</div>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:12px">
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:21px;color:#2A241E">ยอดนิยมในหมู่บ้าน</div>
+<div class="row" style="display:flex;gap:12px;overflow-x:auto;margin:0 -20px;padding:2px 20px 4px">
+<sc-for list="{{ popular }}" as="it" hint-placeholder-count="3">
+<div onClick="{{ it.open }}" style="flex:none;width:132px;cursor:pointer;display:flex;flex-direction:column;gap:8px">
+<div style="height:108px;border-radius:14px;background:{{ it.cover }};display:flex;align-items:flex-end;padding:10px">
+<div style="font-family:'Newsreader',serif;font-size:14px;line-height:1.15;color:{{ it.coverInk }}">{{ it.title }}</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:2px">
+<div style="font-size:13px;font-weight:600;color:#2A241E;line-height:1.25">{{ it.title }}</div>
+<div style="font-size:11px;color:#7A6B5A">{{ it.short }}</div>
+<div style="font-size:11px;font-weight:600;color:{{ it.statusInk }}">{{ it.statusLabel }}</div>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;align-items:baseline;gap:8px">
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:21px;color:#2A241E">เล่นกัน 2 คน</div>
+<div style="font-size:11.5px;color:#A8977F">ไม่เกิน 30 นาที</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ forTwo }}" as="it" hint-placeholder-count="2">
+<div onClick="{{ it.open }}" style="display:flex;align-items:center;gap:12px;padding:10px;background:#FFFFFF;border:1px solid #E4D9C8;border-radius:14px;cursor:pointer">
+<div style="width:52px;height:52px;flex:none;border-radius:10px;background:{{ it.cover }}"></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:2px;min-width:0">
+<div style="font-size:14px;font-weight:600;color:#2A241E">{{ it.title }}</div>
+<div style="font-size:11.5px;color:#7A6B5A">{{ it.meta }}</div>
+</div>
+<div style="display:flex;align-items:center;gap:5px;flex:none">
+<div style="width:6px;height:6px;border-radius:50%;background:{{ it.dot }}"></div>
+<div style="font-size:11px;font-weight:600;color:{{ it.statusInk }}">{{ it.statusShort }}</div>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="padding:16px;border-radius:16px;background:#F2EBDF;border:1px dashed #DCCDB6;display:flex;flex-direction:column;gap:5px">
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:17px;color:#2A241E">รับของที่ชั้นวางล็อบบี้</div>
+<div style="font-size:12px;line-height:1.7;color:#7A6B5A">ส่งมือต่อมือที่ล็อบบี้ตึก B · ทุกวัน 07:00–08:00 น. และ 19:00–20:00 น.</div>
+</div>
+
+</div>
+</sc-if>
+
+<sc-if value="{{ isExplore }}">
+<div style="padding:8px 20px 108px;display:flex;flex-direction:column;gap:16px">
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:29px;color:#2A241E;letter-spacing:-.01em">สำรวจ</div>
+<div onClick="{{ goSearch }}" style="display:flex;align-items:center;gap:10px;height:46px;padding:0 14px;background:#FFFFFF;border:1px solid #E4D9C8;border-radius:13px;cursor:pointer">
+<div style="width:14px;height:14px;border:2px solid #A8977F;border-radius:50%;flex:none"></div>
+<span style="font-size:13.5px;color:#A8977F">ค้นหาในคอลเลกชัน</span>
+</div>
+<div style="display:flex;align-items:center;gap:8px">
+<sc-for list="{{ cats }}" as="c" hint-placeholder-count="3">
+<div onClick="{{ c.pick }}" style="padding:8px 14px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.bd }}">{{ c.label }}</div>
+</sc-for>
+<div onClick="{{ openFilters }}" style="margin-left:auto;display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;border:1px solid #E4D9C8;background:#FFF;font-size:13px;font-weight:600;color:#2A241E;cursor:pointer;white-space:nowrap">
+<div style="display:flex;flex-direction:column;gap:2px"><div style="width:11px;height:1.5px;background:#2A241E"></div><div style="width:7px;height:1.5px;background:#2A241E"></div></div>
+ตัวกรอง {{ filterBadge }}
+</div>
+</div>
+
+<div style="font-size:12px;color:#8A7A66">{{ resultCount }}</div>
+
+<sc-if value="{{ hasResults }}" hint-placeholder-val="{{ true }}">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<sc-for list="{{ results }}" as="it" hint-placeholder-count="4">
+<div style="background:#FFFFFF;border:1px solid #E4D9C8;border-radius:16px;overflow:hidden">
+<div onClick="{{ it.open }}" style="height:118px;background:{{ it.cover }};display:flex;align-items:flex-end;padding:11px;cursor:pointer">
+<div style="font-family:'Newsreader',serif;font-size:15px;line-height:1.15;color:{{ it.coverInk }}">{{ it.title }}</div>
+</div>
+<div style="padding:10px 11px 11px;display:flex;flex-direction:column;gap:6px">
+<div onClick="{{ it.open }}" style="cursor:pointer;display:flex;flex-direction:column;gap:3px">
+<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+<div style="font-size:13.5px;font-weight:600;color:#2A241E;line-height:1.25">{{ it.title }}</div>
+<div style="flex:none;padding:3px 7px;border-radius:8px;background:#F2EBDF;border:1px solid #E4D9C8;font-size:10.5px;font-weight:700;color:#5C4A38;white-space:nowrap">{{ it.rateLabel }}</div>
+</div>
+<div style="font-size:11px;color:#A8977F;font-weight:600">{{ it.type }}</div>
+<div style="font-size:11.5px;color:#7A6B5A;line-height:1.5">{{ it.meta }}</div>
+</div>
+<div style="display:flex;align-items:center;gap:5px">
+<div style="width:6px;height:6px;border-radius:50%;background:{{ it.dot }}"></div>
+<div style="font-size:11px;font-weight:600;color:{{ it.statusInk }}">{{ it.statusLabel }}</div>
+</div>
+<div onClick="{{ it.rent }}" style="height:32px;border-radius:10px;background:{{ it.ctaBg }};display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;color:{{ it.ctaInk }};cursor:pointer;border:1px solid {{ it.ctaBd }}">{{ it.ctaLabel }}</div>
+</div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ noResults }}">
+<div style="margin-top:40px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center">
+<div style="width:64px;height:64px;border-radius:50%;background:#F2EBDF;border:1px dashed #DCCDB6"></div>
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:19px;color:#2A241E">ยังไม่มีรายการที่ตรง</div>
+<div style="font-size:13px;color:#7A6B5A;max-width:250px;line-height:1.7">ลองล้างตัวกรอง หรือดูทุกอย่างที่ว่างอยู่บนชั้นคืนนี้</div>
+<div onClick="{{ clearFilters }}" style="margin-top:6px;padding:11px 18px;border-radius:11px;background:#2A241E;color:#FAF6EF;font-size:13px;font-weight:600;cursor:pointer">ล้างตัวกรอง</div>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ isSearch }}">
+<div style="padding:8px 20px 108px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;align-items:center;gap:10px">
+<div style="flex:1;display:flex;align-items:center;gap:10px;height:46px;padding:0 14px;background:#FFFFFF;border:1px solid #C9B79C;border-radius:13px">
+<div style="width:14px;height:14px;border:2px solid #A8977F;border-radius:50%;flex:none"></div>
+<input value="{{ query }}" onChange="{{ onQuery }}" placeholder="ค้นหาหนังสือ เกม ผู้เขียน…" style="flex:1;min-width:0;border:0;outline:0;background:transparent;font-family:'DM Sans','Noto Sans Thai',sans-serif;font-size:14px;color:#2A241E">
+</div>
+<div onClick="{{ back }}" style="font-size:13.5px;color:#B85C38;font-weight:600;cursor:pointer">ยกเลิก</div>
+</div>
+
+<sc-if value="{{ showRecents }}">
+<div style="display:flex;flex-direction:column;gap:12px">
+<div style="font-size:11.5px;color:#A8977F;font-weight:700">ค้นหาล่าสุดและยอดนิยม</div>
+<div style="display:flex;flex-wrap:wrap;gap:8px">
+<sc-for list="{{ suggestions }}" as="s" hint-placeholder-count="5">
+<div onClick="{{ s.pick }}" style="padding:8px 13px;border-radius:999px;background:#F2EBDF;border:1px solid #E4D9C8;font-size:13px;color:#5C4A38;cursor:pointer">{{ s.label }}</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ hasQuery }}">
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="font-size:12px;color:#8A7A66">{{ resultCount }}</div>
+<sc-for list="{{ results }}" as="it" hint-placeholder-count="3">
+<div onClick="{{ it.open }}" style="display:flex;align-items:center;gap:12px;padding:10px;background:#FFFFFF;border:1px solid #E4D9C8;border-radius:14px;cursor:pointer">
+<div style="width:56px;height:56px;flex:none;border-radius:10px;background:{{ it.cover }}"></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:3px;min-width:0">
+<div style="font-size:14px;font-weight:600;color:#2A241E">{{ it.title }}</div>
+<div style="font-size:11.5px;color:#7A6B5A">{{ it.line }}</div>
+<div style="display:flex;align-items:center;gap:5px">
+<div style="width:6px;height:6px;border-radius:50%;background:{{ it.dot }}"></div>
+<div style="font-size:11px;font-weight:600;color:{{ it.statusInk }}">{{ it.statusLabel }}</div>
+</div>
+</div>
+</div>
+</sc-for>
+<sc-if value="{{ noResults }}">
+<div style="margin-top:30px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center">
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:19px;color:#2A241E">ไม่พบ “{{ query }}”</div>
+<div style="font-size:13px;color:#7A6B5A;max-width:250px;line-height:1.7">ลองตรวจตัวสะกดอีกครั้ง หรือฝากผู้ดูแลชั้นวางให้เพิ่มเข้าคอลเลกชัน</div>
+</div>
+</sc-if>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ isDetail }}">
+<div style="padding:0 0 120px;display:flex;flex-direction:column">
+<div style="position:relative;height:280px;background:{{ item.cover }};display:flex;align-items:flex-end;padding:22px">
+<div onClick="{{ back }}" style="position:absolute;top:14px;left:16px;width:34px;height:34px;border-radius:50%;background:rgba(250,246,239,.9);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:#2A241E">‹</div>
+<div style="font-family:'Newsreader',serif;font-size:32px;line-height:1.1;color:{{ item.coverInk }};letter-spacing:-.01em">{{ item.title }}</div>
+</div>
+<div style="padding:20px;display:flex;flex-direction:column;gap:20px">
+
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="font-size:11.5px;color:#A8977F;font-weight:700">{{ item.type }}</div>
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:26px;color:#2A241E;line-height:1.2">{{ item.title }}</div>
+<div style="display:flex;align-items:center;gap:7px;padding:7px 12px;border-radius:999px;align-self:flex-start;background:{{ item.pillBg }}">
+<div style="width:7px;height:7px;border-radius:50%;background:{{ item.dot }}"></div>
+<div style="font-size:12.5px;font-weight:600;color:{{ item.statusInk }}">{{ item.statusLong }}</div>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#E4D9C8;border:1px solid #E4D9C8;border-radius:14px;overflow:hidden">
+<sc-for list="{{ item.facts }}" as="f" hint-placeholder-count="4">
+<div style="background:#FFFFFF;padding:13px 14px;display:flex;flex-direction:column;gap:3px">
+<div style="font-size:11.5px;color:#A8977F;font-weight:600">{{ f.k }}</div>
+<div style="font-size:14px;font-weight:600;color:#2A241E">{{ f.v }}</div>
+</div>
+</sc-for>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:7px">
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:18px;color:#2A241E">เรื่องย่อ</div>
+<div style="font-size:14px;line-height:1.8;color:#5C4A38;text-wrap:pretty">{{ item.desc }}</div>
+</div>
+
+<sc-if value="{{ item.isAvailable }}" hint-placeholder-val="{{ true }}">
+<div style="padding:16px;border-radius:16px;background:#F2EBDF;border:1px solid #E4D9C8;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;align-items:center;justify-content:space-between">
+<div style="font-size:13px;font-weight:700;color:#2A241E">ค่ามัดจำ {{ payDeposit }} ฿</div>
+<div style="font-size:12px;color:#7A6B5A">ค่าเช่า {{ payRate }} ฿ / วัน</div>
+</div>
+<div onClick="{{ rentCurrent }}" style="display:flex;align-items:center;justify-content:space-between;height:46px;padding:0 14px;background:#FFF;border:1px solid #DCCDB6;border-radius:12px;cursor:pointer">
+<span style="font-size:13.5px;color:#7A6B5A">เลือกวันคืน</span>
+<span style="font-size:13.5px;color:#B85C38;font-weight:600">เลือก</span>
+</div>
+<div style="font-size:12px;color:#8A7A66;line-height:1.7">รับของที่จุดรับส่วนกลาง ล็อบบี้ตึก B</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ item.isRented }}">
+<div style="padding:16px;border-radius:16px;background:#F6EEE6;border:1px solid #E8D6C4;display:flex;flex-direction:column;gap:10px">
+<div style="font-size:14px;font-weight:700;color:#2A241E">ถูกยืมอยู่</div>
+<div style="font-size:13px;color:#7A6B5A;line-height:1.7">จะกลับมาอยู่บนชั้น <strong style="color:#2A241E">{{ item.availFrom }}</strong> เราจะแจ้งคุณทันทีที่ของถูกคืน</div>
+<div onClick="{{ notifyMe }}" style="height:44px;border-radius:12px;border:1.5px solid #2A241E;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#2A241E;cursor:pointer">แจ้งเตือนฉัน</div>
+</div>
+</sc-if>
+
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isCheckout }}">
+<div style="padding:8px 20px 130px;display:flex;flex-direction:column;gap:22px">
+<div style="display:flex;align-items:center;gap:12px">
+<div onClick="{{ back }}" style="width:34px;height:34px;border-radius:50%;background:#F2EBDF;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:#2A241E">‹</div>
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:22px;color:#2A241E">จองรายการนี้</div>
+</div>
+
+<div style="display:flex;align-items:center;gap:14px;padding:12px;background:#FFF;border:1px solid #E4D9C8;border-radius:16px">
+<div style="width:62px;height:62px;flex:none;border-radius:12px;background:{{ item.cover }}"></div>
+<div style="display:flex;flex-direction:column;gap:3px">
+<div style="font-size:15px;font-weight:600;color:#2A241E">{{ item.title }}</div>
+<div style="font-size:11.5px;color:#7A6B5A">{{ item.type }} · {{ item.meta }}</div>
+<div style="font-size:11.5px;font-weight:600;color:#3F7D52">ว่างให้ยืม</div>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:12px">
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:22px;color:#2A241E">จะรับของวันไหน?</div>
+<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px">
+<sc-for list="{{ pickupDates }}" as="d" hint-placeholder-count="5">
+<div onClick="{{ d.pick }}" style="height:64px;border-radius:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;background:{{ d.bg }};border:1.5px solid {{ d.bd }}">
+<div style="font-size:11px;font-weight:600;color:{{ d.sub }}">{{ d.dow }}</div>
+<div style="font-size:17px;font-weight:700;color:{{ d.fg }}">{{ d.num }}</div>
+</div>
+</sc-for>
+</div>
+<div style="font-size:12px;color:#8A7A66;line-height:1.6">{{ pickupHint }}</div>
+<div style="display:flex;gap:8px;margin-top:2px">
+<sc-for list="{{ pickupSlots }}" as="sl" hint-placeholder-count="2">
+<div onClick="{{ sl.pick }}" style="flex:1;padding:13px 14px;border-radius:13px;cursor:pointer;display:flex;flex-direction:column;gap:2px;background:{{ sl.bg }};border:1.5px solid {{ sl.bd }}">
+<div style="font-size:13.5px;font-weight:700;color:{{ sl.fg }}">{{ sl.name }}</div>
+<div style="font-size:12px;color:{{ sl.sub }}">{{ sl.time }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:12px">
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:22px;color:#2A241E">จะคืนวันไหนดี?</div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+<sc-for list="{{ dates }}" as="d" hint-placeholder-count="8">
+<div onClick="{{ d.pick }}" style="height:64px;border-radius:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;background:{{ d.bg }};border:1.5px solid {{ d.bd }}">
+<div style="font-size:11px;font-weight:600;color:{{ d.sub }}">{{ d.dow }}</div>
+<div style="font-size:17px;font-weight:700;color:{{ d.fg }}">{{ d.num }}</div>
+</div>
+</sc-for>
+</div>
+<div style="font-size:12px;color:#8A7A66;line-height:1.6">{{ dateHint }}</div>
+<div style="display:flex;gap:8px;margin-top:2px">
+<sc-for list="{{ slots }}" as="sl" hint-placeholder-count="2">
+<div onClick="{{ sl.pick }}" style="flex:1;padding:13px 14px;border-radius:13px;cursor:pointer;display:flex;flex-direction:column;gap:2px;background:{{ sl.bg }};border:1.5px solid {{ sl.bd }}">
+<div style="font-size:13.5px;font-weight:700;color:{{ sl.fg }}">{{ sl.name }}</div>
+<div style="font-size:12px;color:{{ sl.sub }}">{{ sl.time }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="font-size:11.5px;color:#A8977F;font-weight:700">ข้อมูลของคุณ</div>
+<div style="padding:14px 16px;background:#FFF;border:1px solid #E4D9C8;border-radius:16px;display:flex;align-items:center;justify-content:space-between">
+<div style="display:flex;flex-direction:column;gap:3px">
+<div style="font-size:14.5px;font-weight:600;color:#2A241E">{{ userName }}</div>
+<div style="font-size:12.5px;color:#7A6B5A">{{ myUnit }}</div>
+</div>
+<div onClick="{{ goProfile }}" style="font-size:12.5px;font-weight:600;color:#B85C38;cursor:pointer">แก้ไข</div>
+</div>
+</div>
+
+<div style="padding:16px;border-radius:16px;background:#F2EBDF;border:1px solid #E4D9C8;display:flex;flex-direction:column;gap:10px">
+<div style="font-size:11.5px;color:#A8977F;font-weight:700">สรุปการยืม</div>
+<div style="display:flex;justify-content:space-between;gap:12px;font-size:13.5px"><span style="color:#7A6B5A;flex:none">รายการ</span><span style="color:#2A241E;font-weight:600;text-align:right">{{ item.title }}</span></div>
+<div style="display:flex;justify-content:space-between;gap:12px;font-size:13.5px"><span style="color:#7A6B5A;flex:none">จุดรับ</span><span style="color:#2A241E;font-weight:600;text-align:right">ชั้นวางล็อบบี้ตึก B</span></div>
+<div style="display:flex;justify-content:space-between;gap:12px;font-size:13.5px"><span style="color:#7A6B5A;flex:none">วันรับของ</span><span style="color:#2A241E;font-weight:600;text-align:right">{{ pickupLabel }}</span></div>
+<div style="display:flex;justify-content:space-between;gap:12px;font-size:13.5px"><span style="color:#7A6B5A;flex:none">คืนภายใน</span><span style="color:#2A241E;font-weight:600;text-align:right">{{ chosenLabel }}</span></div>
+<div style="height:1px;background:#E4D9C8;margin:2px 0"></div>
+<div style="display:flex;justify-content:space-between;gap:12px;font-size:13.5px"><span style="color:#7A6B5A;flex:none">ค่ามัดจำ</span><span style="color:#2A241E;font-weight:600;text-align:right;white-space:nowrap">{{ payDeposit }} ฿</span></div>
+<div style="display:flex;justify-content:space-between;gap:12px;font-size:13.5px"><span style="color:#7A6B5A;flex:none">ค่าเช่า</span><span style="color:#2A241E;font-weight:600;text-align:right;white-space:nowrap">{{ payRentLine }} = {{ payRent }} ฿</span></div>
+<div style="display:flex;justify-content:space-between;gap:12px;align-items:center;padding-top:8px;border-top:1px solid #E4D9C8"><span style="font-size:13.5px;font-weight:700;color:#2A241E;flex:none">รวมชำระวันรับของ</span><span style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:20px;color:#2A241E;white-space:nowrap">{{ payTotal }} ฿</span></div>
+<div style="font-size:11.5px;color:#8A7A66;line-height:1.6">มัดจำเท่ากับราคาสินค้า · คืนเงินเต็มจำนวนเมื่อคืนของตรงเวลา</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isPayment }}">
+<div style="padding:8px 20px 40px;display:flex;flex-direction:column;gap:20px;animation:fade .25s ease">
+<div style="display:flex;align-items:center;gap:12px">
+<div onClick="{{ back }}" style="width:34px;height:34px;border-radius:50%;background:#F2EBDF;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:#2A241E">‹</div>
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:22px;color:#2A241E">ยืนยันค่าใช้จ่าย</div>
+</div>
+
+<div style="display:flex;align-items:center;gap:14px;padding:12px;background:#FFF;border:1px solid #E4D9C8;border-radius:16px">
+<div style="width:56px;height:56px;flex:none;border-radius:12px;background:{{ item.cover }}"></div>
+<div style="display:flex;flex-direction:column;gap:3px;min-width:0">
+<div style="font-size:15px;font-weight:600;color:#2A241E">{{ item.title }}</div>
+<div style="font-size:11.5px;color:#7A6B5A">{{ payItemLine }}</div>
+</div>
+</div>
+
+<div style="border:1px solid #E4D9C8;border-radius:16px;background:#FFF;overflow:hidden">
+<div style="padding:14px 16px;border-bottom:1px solid #F0E7D9;display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+<div style="display:flex;flex-direction:column;gap:2px">
+<div style="font-size:13.5px;font-weight:600;color:#2A241E">ค่ามัดจำ</div>
+<div style="font-size:11.5px;color:#8A7A66;line-height:1.6">เท่ากับราคาสินค้า · คืนเงินเต็มจำนวนเมื่อคืนของ</div>
+</div>
+<div style="font-size:14px;font-weight:700;color:#2A241E;white-space:nowrap">{{ payDeposit }} ฿</div>
+</div>
+<div style="padding:14px 16px;border-bottom:1px solid #F0E7D9;display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+<div style="display:flex;flex-direction:column;gap:2px">
+<div style="font-size:13.5px;font-weight:600;color:#2A241E">ค่าเช่า</div>
+<div style="font-size:11.5px;color:#8A7A66;line-height:1.6">{{ payRentLine }}</div>
+</div>
+<div style="font-size:14px;font-weight:700;color:#2A241E;white-space:nowrap">{{ payRent }} ฿</div>
+</div>
+<div style="padding:16px;background:#F7F1E7;display:flex;justify-content:space-between;align-items:center;gap:12px">
+<div style="font-size:13.5px;font-weight:700;color:#2A241E">ยอดชำระวันรับของ</div>
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:24px;color:#2A241E;white-space:nowrap">{{ payTotal }} ฿</div>
+</div>
+</div>
+
+<div style="padding:14px 16px;border-radius:14px;background:#F2EBDF;border:1px dashed #DCCDB6;font-size:12px;color:#7A6B5A;line-height:1.7">ชำระเงินสดหรือโอนตอนรับของที่ล็อบบี้ตึก B · คืนของช้ากว่ากำหนดจะหักค่าเช่าเพิ่มตามจำนวนวันจากเงินมัดจำ</div>
+
+<div style="display:flex;flex-direction:column;gap:10px">
+<div onClick="{{ confirmPay }}" style="height:52px;border-radius:14px;background:{{ accent }};display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:#FFF;cursor:pointer">ยอมรับค่าใช้จ่าย · {{ payTotal }} ฿</div>
+<div onClick="{{ back }}" style="height:48px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#7A6B5A;cursor:pointer">กลับไปแก้ไขวัน</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isQr }}">
+<div style="padding:8px 20px 40px;display:flex;flex-direction:column;gap:18px;animation:fade .25s ease">
+<div style="display:flex;align-items:center;gap:12px">
+<div onClick="{{ back }}" style="width:34px;height:34px;border-radius:50%;background:#F2EBDF;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:#2A241E">‹</div>
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:22px;color:#2A241E">โอนเงิน {{ payTotal }} ฿</div>
+</div>
+
+<div style="background:#FFF;border:1px solid #E4D9C8;border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:12px;align-items:center">
+<div style="font-size:11.5px;color:#A8977F;font-weight:700;align-self:flex-start">ขั้นที่ 1 · สแกนหรือบันทึก QR</div>
+<img src="./assets/promptpay-qr.jpg" alt="PromptPay QR" style="width:100%;max-width:250px;border-radius:14px;border:1px solid #E4D9C8" />
+<div onClick="{{ downloadQr }}" style="width:100%;height:48px;border-radius:13px;background:#2A241E;display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;font-weight:600;color:#FAF6EF;cursor:pointer">ดาวน์โหลด QR</div>
+</div>
+
+<div style="background:#FFF;border:1px solid #E4D9C8;border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:12px">
+<div style="font-size:11.5px;color:#A8977F;font-weight:700">ขั้นที่ 2 · ส่งสลิปทางไลน์</div>
+<div style="font-size:13.5px;line-height:1.7;color:#5C4A38;text-wrap:pretty">เพิ่มเพื่อนในไลน์ แล้วส่งสลิปการโอนเข้ามา ทีมงานจะยืนยันการจองให้ภายในไม่กี่นาที</div>
+<div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;background:#F2EBDF;border:1px solid #E4D9C8">
+<div style="width:42px;height:42px;flex:none;border-radius:12px;background:#06C755;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#FFF">LINE</div>
+<div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+<div style="font-size:14px;font-weight:700;color:#2A241E">@booksandboardgame</div>
+<div style="font-size:11.5px;color:#7A6B5A">ไลน์ทางการของชั้นวางล็อบบี้ตึก B</div>
+</div>
+</div>
+<a href="https://line.me/R/ti/p/~@booksandboardgame" target="_blank" style="height:48px;border-radius:13px;background:#06C755;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#FFF;text-decoration:none">เพิ่มเพื่อนในไลน์</a>
+</div>
+
+<div onClick="{{ confirmSlip }}" style="height:52px;border-radius:14px;background:{{ accent }};display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:#FFF;cursor:pointer">ส่งสลิปแล้ว · ยืนยันการจอง</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isSuccess }}">
+<div style="min-height:100%;padding:60px 26px 40px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;animation:fade .3s ease">
+<div style="width:96px;height:96px;border-radius:50%;background:#E4EFE5;display:flex;align-items:center;justify-content:center;font-size:38px">🎲</div>
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:30px;line-height:1.3;color:#2A241E">จองเรียบร้อยแล้ว!</div>
+<div style="font-size:15px;line-height:1.75;color:#5C4A38;max-width:290px;text-wrap:pretty">เราเก็บ <strong>{{ item.title }}</strong> ไว้ให้คุณแล้ว รับของได้ที่ชั้นวางล็อบบี้ตึก B</div>
+<div style="margin-top:6px;width:100%;display:flex;flex-direction:column;gap:1px;background:#E4D9C8;border:1px solid #E4D9C8;border-radius:14px;overflow:hidden">
+<div style="background:#F2EBDF;padding:14px 18px;text-align:left">
+<div style="font-size:11.5px;color:#A8977F;font-weight:700;margin-bottom:4px">วันรับของ</div>
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:18px;color:#2A241E">{{ pickupLabel }}</div>
+</div>
+<div style="background:#F2EBDF;padding:14px 18px;text-align:left">
+<div style="font-size:11.5px;color:#A8977F;font-weight:700;margin-bottom:4px">คืนภายใน</div>
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:18px;color:#2A241E">{{ chosenLabel }}</div>
+</div>
+<div style="background:#F2EBDF;padding:14px 18px;text-align:left">
+<div style="font-size:11.5px;color:#A8977F;font-weight:700;margin-bottom:4px">ชำระวันรับของ</div>
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:18px;color:#2A241E">{{ payTotal }} ฿ (มัดจำ {{ payDeposit }} + ค่าเช่า {{ payRent }})</div>
+</div>
+</div>
+<div style="margin-top:14px;width:100%;display:flex;flex-direction:column;gap:10px">
+<div onClick="{{ goRentals }}" style="height:52px;border-radius:14px;background:{{ accent }};display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:#FFF;cursor:pointer">ดูรายการที่ยืม</div>
+<div onClick="{{ goHome }}" style="height:52px;border-radius:14px;border:1.5px solid #DCCDB6;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:#2A241E;cursor:pointer">เลือกดูต่อ</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isRentals }}">
+<div style="padding:8px 20px 108px;display:flex;flex-direction:column;gap:16px">
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:29px;color:#2A241E;letter-spacing:-.01em">รายการที่ยืม</div>
+<div style="display:flex;gap:8px">
+<sc-for list="{{ rentTabs }}" as="t" hint-placeholder-count="2">
+<div onClick="{{ t.pick }}" style="padding:8px 16px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;background:{{ t.bg }};color:{{ t.fg }};border:1px solid {{ t.bd }}">{{ t.label }}</div>
+</sc-for>
+</div>
+
+<sc-if value="{{ hasRentals }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:12px">
+<sc-for list="{{ rentalList }}" as="r" hint-placeholder-count="2">
+<div style="background:#FFF;border:1px solid #E4D9C8;border-radius:18px;overflow:hidden">
+<div style="padding:14px;display:flex;gap:14px">
+<div style="width:70px;height:92px;flex:none;border-radius:12px;background:{{ r.cover }}"></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:5px;min-width:0">
+<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+<div style="font-size:15.5px;font-weight:600;color:#2A241E;line-height:1.25">{{ r.title }}</div>
+<div style="flex:none;padding:4px 9px;border-radius:999px;background:{{ r.badgeBg }};font-size:10.5px;font-weight:700;color:{{ r.badgeInk }};white-space:nowrap">{{ r.badge }}</div>
+</div>
+<div style="font-size:11px;color:#A8977F;font-weight:600">{{ r.type }}</div>
+<div style="font-size:12px;color:#7A6B5A">ยืมเมื่อ {{ r.rented }}</div>
+<div style="margin-top:2px;font-size:13px;color:#5C4A38">คืนภายใน <strong style="color:#2A241E">{{ r.due }}</strong></div>
+<div style="font-size:12.5px;font-weight:600;color:{{ r.leftInk }}">{{ r.left }}</div>
+</div>
+</div>
+<sc-if value="{{ r.isCurrent }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;gap:1px;background:#E4D9C8;border-top:1px solid #E4D9C8">
+<div onClick="{{ r.open }}" style="flex:1;height:46px;background:#FFF;display:flex;align-items:center;justify-content:center;font-size:13.5px;font-weight:600;color:#5C4A38;cursor:pointer">ดูรายละเอียด</div>
+<div onClick="{{ r.startReturn }}" style="flex:1;height:46px;background:#FFF;display:flex;align-items:center;justify-content:center;font-size:13.5px;font-weight:700;color:#B85C38;cursor:pointer">คืนของ</div>
+</div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ noRentals }}">
+<div style="margin-top:50px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center">
+<div style="width:64px;height:64px;border-radius:50%;background:#F2EBDF;border:1px dashed #DCCDB6"></div>
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:19px;color:#2A241E">{{ emptyTitle }}</div>
+<div style="font-size:13px;color:#7A6B5A;max-width:250px;line-height:1.7">{{ emptyBody }}</div>
+<div onClick="{{ goHome }}" style="margin-top:6px;padding:12px 20px;border-radius:12px;background:#2A241E;color:#FAF6EF;font-size:13.5px;font-weight:600;cursor:pointer">ไปดูชั้นวาง</div>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ isProfile }}">
+<div style="padding:8px 20px 108px;display:flex;flex-direction:column;gap:20px">
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:29px;color:#2A241E;letter-spacing:-.01em">โปรไฟล์</div>
+<div style="display:flex;align-items:center;gap:14px">
+<div style="width:64px;height:64px;border-radius:50%;background:#DCC9B0;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:#5C4A38">{{ initials }}</div>
+<div style="display:flex;flex-direction:column;gap:3px">
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:21px;color:#2A241E">{{ userName }}</div>
+<div style="font-size:13px;color:#7A6B5A">เป็นเพื่อนบ้านตั้งแต่ มี.ค. 2026</div>
+</div>
+</div>
+
+<div style="display:flex;gap:10px">
+<div style="flex:1;padding:14px;border-radius:14px;background:#F2EBDF;border:1px solid #E4D9C8;display:flex;flex-direction:column;gap:2px">
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:24px;color:#2A241E">{{ currentCount }}</div>
+<div style="font-size:11.5px;color:#7A6B5A">กำลังยืมอยู่</div>
+</div>
+<div style="flex:1;padding:14px;border-radius:14px;background:#F2EBDF;border:1px solid #E4D9C8;display:flex;flex-direction:column;gap:2px">
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:24px;color:#2A241E">{{ pastCount }}</div>
+<div style="font-size:11.5px;color:#7A6B5A">คืนแล้วทั้งหมด</div>
+</div>
+</div>
+
+<div style="background:#FFF;border:1px solid #E4D9C8;border-radius:16px;overflow:hidden">
+<div style="padding:14px 16px;display:flex;justify-content:space-between;border-bottom:1px solid #F0E7D9"><span style="font-size:13px;color:#7A6B5A">ตึก · ห้อง</span><span style="font-size:13.5px;font-weight:600;color:#2A241E">{{ myUnit }}</span></div>
+<div style="padding:14px 16px;display:flex;justify-content:space-between;border-bottom:1px solid #F0E7D9"><span style="font-size:13px;color:#7A6B5A">โทรศัพท์</span><span style="font-size:13.5px;font-weight:600;color:#2A241E">{{ myPhone }}</span></div>
+<div style="padding:14px 16px;display:flex;justify-content:space-between;border-bottom:1px solid #F0E7D9"><span style="font-size:13px;color:#7A6B5A">สมัครเมื่อ</span><span style="font-size:13.5px;font-weight:600;color:#2A241E">{{ myJoined }}</span></div>
+<div style="padding:14px 16px;display:flex;justify-content:space-between"><span style="font-size:13px;color:#7A6B5A">IP อุปกรณ์</span><span style="font-size:13.5px;font-weight:600;color:#2A241E">{{ myIp }}</span></div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:10px">
+<div onClick="{{ goRentals }}" style="height:50px;border-radius:14px;background:#2A241E;display:flex;align-items:center;justify-content:center;font-size:14.5px;font-weight:600;color:#FAF6EF;cursor:pointer">ประวัติการยืม</div>
+<div style="height:50px;border-radius:14px;border:1.5px solid #DCCDB6;display:flex;align-items:center;justify-content:center;font-size:14.5px;font-weight:600;color:#2A241E;cursor:pointer">แก้ไขโปรไฟล์</div>
+<div onClick="{{ openPin }}" style="padding:14px 16px;border-radius:14px;border:1.5px solid #DCCDB6;background:#F6F1E6;display:flex;align-items:center;gap:12px;cursor:pointer">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8A6A3B" stroke-width="1.7" stroke-linecap="round"><path d="M6 11V8a6 6 0 0 1 12 0v3"></path><path d="M5 11h14v9H5z"></path></svg>
+<div style="display:flex;flex-direction:column;gap:2px;flex:1">
+<div style="font-size:14px;font-weight:600;color:#2A241E">แดชบอร์ดผู้ดูแล</div>
+<div style="font-size:11.5px;color:#8A7A66">สำหรับผู้ดูแลคลังของตึก · ต้องใส่รหัส PIN</div>
+</div>
+<div style="font-size:16px;color:#A8977F">›</div>
+</div>
+</div>
+<div style="font-size:11.5px;color:#A8977F;text-align:center;line-height:1.7">ข้อมูลตึกและห้องช่วยให้เพื่อนบ้านส่งของถึงมือกันได้เร็วขึ้น</div>
+</div>
+</sc-if>
+
+</div>
+
+<sc-if value="{{ showRentBar }}">
+<div style="position:absolute;left:0;right:0;bottom:0;padding:14px 20px 22px;background:linear-gradient(to top,#FAF6EF 62%,rgba(250,246,239,0));display:flex;align-items:center;gap:12px;z-index:6">
+<div style="display:flex;flex-direction:column;gap:1px;flex:none">
+<div style="font-size:11px;color:#8A7A66">{{ barCaption }}</div>
+<div style="font-size:13px;font-weight:700;color:#2A241E;white-space:nowrap">{{ barValue }}</div>
+</div>
+<div onClick="{{ barAction }}" style="flex:1;height:52px;border-radius:14px;background:{{ barBg }};display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:#FFF;cursor:pointer">{{ barLabel }}</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showNav }}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute;left:0;right:0;bottom:0;height:78px;background:rgba(250,246,239,.95);border-top:1px solid #E4D9C8;display:flex;align-items:flex-start;padding-top:12px;z-index:5;backdrop-filter:blur(8px)">
+<sc-for list="{{ navs }}" as="n" hint-placeholder-count="4">
+<div onClick="{{ n.pick }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer">
+<svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="{{ n.fg }}" stroke-width="{{ n.sw }}" stroke-linecap="round" stroke-linejoin="round"><path d="{{ n.path }}"></path><path d="{{ n.path2 }}"></path></svg>
+<div style="font-size:11px;font-weight:600;color:{{ n.fg }}">{{ n.label }}</div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ filterOpen }}">
+<div onClick="{{ closeSheets }}" style="position:absolute;inset:0;background:rgba(40,32,24,.4);z-index:8;animation:fade .2s ease"></div>
+<div style="position:absolute;left:0;right:0;bottom:0;background:#FAF6EF;border-radius:26px 26px 0 0;padding:18px 20px 26px;z-index:9;animation:up .28s cubic-bezier(.2,.8,.2,1);max-height:80%;overflow-y:auto">
+<div style="width:40px;height:4px;border-radius:2px;background:#DCCDB6;margin:0 auto 16px"></div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:21px;color:#2A241E">ตัวกรอง</div>
+<div onClick="{{ clearFilters }}" style="font-size:13px;font-weight:600;color:#B85C38;cursor:pointer">ล้างทั้งหมด</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:18px">
+<sc-for list="{{ filterGroups }}" as="g" hint-placeholder-count="3">
+<div style="display:flex;flex-direction:column;gap:9px">
+<div style="font-size:11.5px;color:#A8977F;font-weight:700">{{ g.name }}</div>
+<div style="display:flex;flex-wrap:wrap;gap:8px">
+<sc-for list="{{ g.opts }}" as="o" hint-placeholder-count="3">
+<div onClick="{{ o.toggle }}" style="padding:9px 14px;border-radius:999px;font-size:13px;font-weight:500;cursor:pointer;background:{{ o.bg }};color:{{ o.fg }};border:1px solid {{ o.bd }}">{{ o.label }}</div>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+<div onClick="{{ closeSheets }}" style="margin-top:22px;height:52px;border-radius:14px;background:#2A241E;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:#FAF6EF;cursor:pointer">ดู {{ resultN }} รายการ</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ returnOpen }}">
+<div onClick="{{ closeSheets }}" style="position:absolute;inset:0;background:rgba(40,32,24,.4);z-index:8;animation:fade .2s ease"></div>
+<div style="position:absolute;left:0;right:0;bottom:0;background:#FAF6EF;border-radius:26px 26px 0 0;padding:18px 20px 26px;z-index:9;animation:up .28s cubic-bezier(.2,.8,.2,1)">
+<div style="width:40px;height:4px;border-radius:2px;background:#DCCDB6;margin:0 auto 18px"></div>
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:23px;line-height:1.35;color:#2A241E;margin-bottom:6px">พร้อมคืน {{ returnTitle }} แล้วใช่ไหม?</div>
+<div style="font-size:13.5px;color:#7A6B5A;line-height:1.7;margin-bottom:16px">นำไปวางที่ชั้นล็อบบี้ตึก B ในช่วง 07:00–08:00 น. หรือ 19:00–20:00 น. แล้วเราจะปรับสถานะให้ว่างสำหรับเพื่อนบ้านคนต่อไป</div>
+<div style="padding:14px 16px;border-radius:14px;background:#F2EBDF;border:1px solid #E4D9C8;display:flex;justify-content:space-between;margin-bottom:18px">
+<span style="font-size:13px;color:#7A6B5A">กำหนดคืน</span><span style="font-size:13.5px;font-weight:600;color:#2A241E">{{ returnDue }}</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<div onClick="{{ confirmReturn }}" style="height:52px;border-radius:14px;background:{{ accent }};display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:#FFF;cursor:pointer">ยืนยันการคืน</div>
+<div onClick="{{ closeSheets }}" style="height:48px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#7A6B5A;cursor:pointer">ยังก่อน</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ introOpen }}">
+<div style="position:absolute;inset:0;background:rgba(40,32,24,.45);z-index:14;animation:fade .2s ease"></div>
+<div style="position:absolute;left:18px;right:18px;top:50%;transform:translateY(-50%);max-height:calc(100% - 36px);overflow:auto;-webkit-overflow-scrolling:touch;background:#FAF6EF;border:1px solid #E4D9C8;border-radius:24px;padding:24px 22px;z-index:15;animation:pop .3s ease;box-shadow:0 26px 50px -18px rgba(40,30,20,.5)">
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:25px;line-height:1.35;color:#2A241E;margin-bottom:8px">เล่นก่อน จ่ายทีหลังวันละไม่ถึงค่ากาแฟ</div>
+<div style="font-size:13.5px;line-height:1.7;color:#7A6B5A;margin-bottom:18px">หนังสือและบอร์ดเกมกว่าร้อยรายการ รอคุณอยู่ที่ชั้นวางล็อบบี้ตึก B</div>
+<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px">
+<div style="display:flex;gap:12px;align-items:center;padding:13px 14px;border-radius:14px;background:#F2EBDF;border:1px solid #E4D9C8">
+<div style="font-size:18px">📚</div>
+<div><div style="font-size:13.5px;font-weight:700;color:#2A241E">ค่าเช่าเริ่มต้น 8 ฿ / วัน</div><div style="font-size:12.5px;color:#7A6B5A">หนังสือ 8–12 ฿ · บอร์ดเกม 15–35 ฿</div></div>
+</div>
+<div style="display:flex;gap:12px;align-items:center;padding:13px 14px;border-radius:14px;background:#F2EBDF;border:1px solid #E4D9C8">
+<div style="font-size:18px">💰</div>
+<div><div style="font-size:13.5px;font-weight:700;color:#2A241E">มัดจำเท่าราคาของจริง คืนครบ 100%</div><div style="font-size:12.5px;color:#7A6B5A">คืนของตรงเวลา รับเงินมัดจำคืนเต็มจำนวนทันที</div></div>
+</div>
+<div style="display:flex;gap:12px;align-items:center;padding:13px 14px;border-radius:14px;background:#F2EBDF;border:1px solid #E4D9C8">
+<div style="font-size:18px">🎲</div>
+<div><div style="font-size:13.5px;font-weight:700;color:#2A241E">รับ–คืนสะดวก เลือกเวลาเองได้</div><div style="font-size:12.5px;color:#7A6B5A">ทุกวัน 07:00–08:00 น. หรือ 19:00–20:00 น.</div></div>
+</div>
+</div>
+<sc-if value="{{ needSignup }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
+<div style="font-size:11.5px;color:#A8977F;font-weight:700">สมัครสมาชิกฟรี · ใช้เวลา 10 วินาที</div>
+<input value="{{ suName }}" onChange="{{ onSuName }}" placeholder="ชื่อ–นามสกุล" style="height:46px;padding:0 14px;border-radius:12px;border:1px solid #DCCDB6;background:#FFF;font-family:inherit;font-size:14px;color:#2A241E;outline:none" />
+<div style="display:flex;gap:10px">
+<input value="{{ suUnit }}" onChange="{{ onSuUnit }}" placeholder="ตึก · ห้อง" style="flex:1;min-width:0;height:46px;padding:0 14px;border-radius:12px;border:1px solid #DCCDB6;background:#FFF;font-family:inherit;font-size:14px;color:#2A241E;outline:none" />
+<input value="{{ suPhone }}" onChange="{{ onSuPhone }}" placeholder="เบอร์โทร" style="flex:1;min-width:0;height:46px;padding:0 14px;border-radius:12px;border:1px solid #DCCDB6;background:#FFF;font-family:inherit;font-size:14px;color:#2A241E;outline:none" />
+</div>
+<div style="font-size:11.5px;color:{{ suHintInk }};line-height:1.6">{{ suHint }}</div>
+</div>
+<div onClick="{{ submitSignup }}" style="height:52px;border-radius:14px;background:{{ accent }};display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:#FFF;cursor:pointer">สมัครสมาชิก แล้วเริ่มเลือกเลย</div>
+<div onClick="{{ closeIntro }}" style="height:40px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#A8977F;cursor:pointer">ดูรายการก่อน</div>
+</sc-if>
+<sc-if value="{{ isMember }}">
+<div onClick="{{ closeIntro }}" style="height:52px;border-radius:14px;background:{{ accent }};display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:#FFF;cursor:pointer">เริ่มเลือกเลย</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ pinOpen }}">
+<div onClick="{{ closePin }}" style="position:absolute;inset:0;background:rgba(40,32,24,.5);z-index:14;animation:fade .2s ease"></div>
+<div style="position:absolute;left:0;right:0;bottom:0;background:#FAF6EF;border-radius:26px 26px 0 0;padding:18px 20px 26px;z-index:15;animation:up .28s cubic-bezier(.2,.8,.2,1)">
+<div style="width:40px;height:4px;border-radius:2px;background:#DCCDB6;margin:0 auto 18px"></div>
+<div style="font-family:'Newsreader','Noto Serif Thai',serif;font-size:23px;color:#2A241E;margin-bottom:6px">ใส่รหัส PIN ผู้ดูแล</div>
+<div style="font-size:13px;color:{{ pinHintInk }};line-height:1.6;margin-bottom:18px">{{ pinHint }}</div>
+<div style="display:flex;gap:10px;justify-content:center;margin-bottom:22px">
+<sc-for list="{{ pinDots }}" as="d" hint-placeholder-count="6">
+<div style="width:42px;height:52px;border-radius:12px;border:1.5px solid {{ d.bd }};background:{{ d.bg }};display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#2A241E">{{ d.ch }}</div>
+</sc-for>
+</div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+<sc-for list="{{ keys }}" as="k" hint-placeholder-count="12">
+<div onClick="{{ k.press }}" style="height:56px;border-radius:14px;background:{{ k.bg }};border:1px solid {{ k.bd }};display:flex;align-items:center;justify-content:center;font-size:{{ k.size }};font-weight:600;color:{{ k.fg }};cursor:pointer">{{ k.label }}</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ toast }}">
+<div style="position:absolute;left:20px;right:20px;bottom:96px;z-index:12;padding:14px 16px;border-radius:14px;background:#2A241E;color:#FAF6EF;font-size:13.5px;font-weight:500;display:flex;align-items:center;gap:10px;animation:pop .25s ease;box-shadow:0 14px 30px -12px rgba(40,30,20,.6)">
+<div style="width:7px;height:7px;border-radius:50%;background:#7FBF92;flex:none"></div>
+{{ toast }}
+</div>
+</sc-if>
+
+</div>
+
+<sc-if value="{{ adminOpen }}">
+<div style="position:fixed;inset:0;z-index:40;background:#F4EEE3;display:flex;flex-direction:column">
+<div style="flex:none;height:52px;background:#241F1B;display:flex;align-items:center;justify-content:space-between;padding:0 18px">
+<div style="display:flex;align-items:center;gap:10px">
+<div style="font-family:'Newsreader',serif;font-size:15px;color:#FAF6EF">Books &amp; Boardgame · Admin</div>
+<div style="padding:3px 9px;border-radius:999px;background:#3B332B;font-size:10.5px;font-weight:700;letter-spacing:.06em;color:#C6B7A3">PIN VERIFIED</div>
+</div>
+<div onClick="{{ exitAdmin }}" style="height:32px;padding:0 14px;border-radius:8px;border:1px solid #4A4038;display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:#E7DDCD;cursor:pointer">‹ กลับไปที่แอป</div>
+</div>
+<div style="flex:1;min-height:0;overflow:auto">
+<dc-import name="AdminDashboard" hint-size="100%,100%"></dc-import>
+</div>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:414,&quot;height&quot;:896},&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#B85C38&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#B85C38&quot;,&quot;#3F7D52&quot;,&quot;#8A6A3B&quot;,&quot;#2A241E&quot;],&quot;section&quot;:&quot;ธีม&quot;},&quot;userName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;ปรียา รามัน&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;เนื้อหา&quot;}}">
+const TODAY = new Date(2026, 7, 13);
+const MON = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+const DOW = ['อา','จ','อ','พ','พฤ','ศ','ส'];
+const DOWL = ['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'];
+const fmt = d => 'วัน' + DOWL[d.getDay()] + 'ที่ ' + d.getDate() + ' ' + MON[d.getMonth()];
+const shortFmt = d => DOW[d.getDay()] + ' ' + d.getDate() + ' ' + MON[d.getMonth()];
+const addDays = (d, n) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
+const GAME = 'บอร์ดเกม', BOOK = 'หนังสือ';
+
+const PRICE = {
+  codenames:[750,20], azul:[1350,30], ticket:[1600,35], carcassonne:[1200,30], dixit:[1100,25], sushigo:[450,15],
+  midnight:[420,10], atomic:[520,10], alchemist:[320,8], norwegian:[380,8], hailmary:[560,12]
+};
+const baht = n => n.toLocaleString('en-US');
+
+/* shared database with the admin dashboard */
+const DB_KEY = 'bb_db';
+const readDB = () => { try { return JSON.parse(localStorage.getItem(DB_KEY)) || {}; } catch (e) { return {}; } };
+const writeDB = patch => {
+  const db = readDB();
+  const next = Object.assign({}, db, patch, {
+    prices: Object.assign({}, db.prices, patch.prices),
+    items: Object.assign({}, db.items, patch.items)
+  });
+  try { localStorage.setItem(DB_KEY, JSON.stringify(next)); } catch (e) {}
+  return next;
+};
+const EN_DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const EN_MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const enFmt = d => EN_DOW[d.getDay()] + ', ' + EN_MON[d.getMonth()] + ' ' + d.getDate();
+const outRecord = (due, renter, unit, rented) => {
+  const days = Math.round((due - TODAY) / 86400000);
+  return { status: days < 0 ? 'overdue' : 'out', renter, unit, rented, due: enFmt(due), days, dueISO: due.toISOString() };
+};
+
+const CATALOG = [
+  { id:'codenames', title:'Codenames', type:GAME, meta:'2–8 คน · 15–30 นาที', short:'2–8 คน', cover:'#D9C4A9', coverInk:'#3A2E22', base:'available', tags:['popular','under30','two','new'],
+    desc:'สองทีมแข่งกันหาสายลับของตัวเองจากคำใบ้เพียงคำเดียว สนุก เสียงดัง และสอนกันได้ในสองนาที เหมาะมากเวลามีคนที่ไม่เคยเล่นบอร์ดเกมมาก่อน',
+    facts:[{k:'ผู้เล่น',v:'2–8 คน'},{k:'เวลา',v:'15–30 นาที'},{k:'อายุ',v:'10 ปีขึ้นไป'},{k:'ความยาก',v:'ง่าย'}] },
+  { id:'azul', title:'Azul', type:GAME, meta:'2–4 คน · 30–45 นาที', short:'2–4 คน', cover:'#B9C7C9', coverInk:'#22312F', base:'available', tags:['popular','two'],
+    desc:'เลือกกระเบื้องสีสวยมาตกแต่งผนังวัง เงียบ ๆ จับต้องสนุก และหน้าตาน่ามอง เหมาะกับเย็นที่อยากเล่นช้า ๆ พร้อมกาแฟสักแก้ว',
+    facts:[{k:'ผู้เล่น',v:'2–4 คน'},{k:'เวลา',v:'30–45 นาที'},{k:'อายุ',v:'8 ปีขึ้นไป'},{k:'ความยาก',v:'ง่าย'}] },
+  { id:'ticket', title:'Ticket to Ride', type:GAME, meta:'2–5 คน · 45–60 นาที', short:'2–5 คน', cover:'#C9A88C', coverInk:'#33231A', base:'rented', availFrom:'16 ส.ค.', tags:['popular'],
+    desc:'วางเส้นทางรถไฟเชื่อมเมืองต่าง ๆ ให้สำเร็จก่อนที่คู่แข่งจะยึดรางที่คุณต้องการ เกมคลาสสิกที่เล่นกันได้ทั้งครอบครัว',
+    facts:[{k:'ผู้เล่น',v:'2–5 คน'},{k:'เวลา',v:'45–60 นาที'},{k:'อายุ',v:'8 ปีขึ้นไป'},{k:'ความยาก',v:'ง่าย'}] },
+  { id:'carcassonne', title:'Carcassonne', type:GAME, meta:'2–5 คน · 30–45 นาที', short:'2–5 คน', cover:'#CBBE9B', coverInk:'#332C1B', base:'available', tags:['two'],
+    desc:'ต่อแผ่นกระเบื้องเป็นถนน เมือง และอาราม แล้ววางลูกน้องลงไปเก็บแต้ม เล่นสบาย ๆ และไม่ซ้ำกันสักรอบ',
+    facts:[{k:'ผู้เล่น',v:'2–5 คน'},{k:'เวลา',v:'30–45 นาที'},{k:'อายุ',v:'7 ปีขึ้นไป'},{k:'ความยาก',v:'ง่าย'}] },
+  { id:'dixit', title:'Dixit', type:GAME, meta:'3–6 คน · 30 นาที', short:'3–6 คน', cover:'#C7B3C4', coverInk:'#2E2432', base:'available', tags:['new'],
+    desc:'บรรยายภาพวาดเหนือจริงด้วยคำเดียว เสียงฮัม หรือความทรงจำ ให้คลุมเครือพอที่จะมีแค่บางคนเดาถูก เล่นด้วยกันได้ทุกวัย',
+    facts:[{k:'ผู้เล่น',v:'3–6 คน'},{k:'เวลา',v:'30 นาที'},{k:'อายุ',v:'8 ปีขึ้นไป'},{k:'ความยาก',v:'ง่าย'}] },
+  { id:'sushigo', title:'Sushi Go!', type:GAME, meta:'2–5 คน · 15 นาที', short:'2–5 คน', cover:'#E0BBA6', coverInk:'#3A2219', base:'available', tags:['under30','two','popular'],
+    desc:'ส่งไพ่วนรอบโต๊ะแล้วคว้าชุดอาหารที่คุ้มที่สุดก่อนที่มันจะหายไป สิบห้านาทีจบ พกง่าย และเล่นซ้ำได้ไม่เบื่อ',
+    facts:[{k:'ผู้เล่น',v:'2–5 คน'},{k:'เวลา',v:'15 นาที'},{k:'อายุ',v:'8 ปีขึ้นไป'},{k:'ความยาก',v:'ง่าย'}] },
+  { id:'midnight', title:'The Midnight Library', type:BOOK, author:'Matt Haig', genre:'นิยาย', meta:'Matt Haig · นิยาย', short:'Matt Haig', cover:'#A9B8C4', coverInk:'#1F2B34', base:'available', tags:['popular','easy','new'],
+    desc:'ระหว่างความเป็นและความตายมีห้องสมุดแห่งหนึ่ง ทุกเล่มคือชีวิตที่คุณอาจได้ใช้ อ่านง่าย อบอุ่น และเป็นเล่มที่คนในตึกส่งต่อกันไม่หยุด',
+    facts:[{k:'ผู้เขียน',v:'Matt Haig'},{k:'หมวด',v:'นิยาย'},{k:'ภาษา',v:'อังกฤษ'},{k:'ความยาว',v:'304 หน้า'}] },
+  { id:'atomic', title:'Atomic Habits', type:BOOK, author:'James Clear', genre:'สารคดี', meta:'James Clear · สารคดี', short:'James Clear', cover:'#C6C2A9', coverInk:'#2C2C1E', base:'rented', availFrom:'19 ส.ค.', tags:['popular'],
+    desc:'การเปลี่ยนเล็ก ๆ ที่ทำซ้ำทุกวันจะทบต้นเป็นผลลัพธ์ที่ใหญ่มาก อ่านเป็นตอน ๆ ได้ เพื่อนบ้านส่วนใหญ่จบได้ในหนึ่งสุดสัปดาห์',
+    facts:[{k:'ผู้เขียน',v:'James Clear'},{k:'หมวด',v:'สารคดี'},{k:'ภาษา',v:'อังกฤษ'},{k:'ความยาว',v:'320 หน้า'}] },
+  { id:'alchemist', title:'The Alchemist', type:BOOK, author:'Paulo Coelho', genre:'นิยาย', meta:'Paulo Coelho · นิยาย', short:'Paulo Coelho', cover:'#DCC49B', coverInk:'#3A2C18', base:'available', tags:['easy','under30'],
+    desc:'เด็กเลี้ยงแกะออกเดินทางจากอันดาลูเซียไปถึงพีระมิดเพื่อตามหาสมบัติ บทสั้น อารมณ์ใหญ่ อ่านจบได้ในคืนเดียว',
+    facts:[{k:'ผู้เขียน',v:'Paulo Coelho'},{k:'หมวด',v:'นิยาย'},{k:'ภาษา',v:'อังกฤษ'},{k:'ความยาว',v:'208 หน้า'}] },
+  { id:'norwegian', title:'Norwegian Wood', type:BOOK, author:'Haruki Murakami', genre:'นิยาย', meta:'Haruki Murakami · นิยาย', short:'Haruki Murakami', cover:'#B0B9A5', coverInk:'#232B1F', base:'available', tags:[],
+    desc:'เรื่องราวเงียบเศร้าของรักครั้งแรกและการสูญเสียในโตเกียวยุค 1960 ค่อย ๆ ไปในแบบที่ดี เหมาะกับช่วงหน้าฝนหลาย ๆ คืน',
+    facts:[{k:'ผู้เขียน',v:'Haruki Murakami'},{k:'หมวด',v:'นิยาย'},{k:'ภาษา',v:'อังกฤษ'},{k:'ความยาว',v:'296 หน้า'}] },
+  { id:'hailmary', title:'Project Hail Mary', type:BOOK, author:'Andy Weir', genre:'ไซไฟ', meta:'Andy Weir · ไซไฟ', short:'Andy Weir', cover:'#B7AEC7', coverInk:'#262135', base:'available', tags:['popular','new'],
+    desc:'ชายคนหนึ่งตื่นขึ้นมาบนยานอวกาศตัวคนเดียว ไร้ความทรงจำ และมีดาวทั้งดวงให้ช่วย ตลก สนุก และวางไม่ลง',
+    facts:[{k:'ผู้เขียน',v:'Andy Weir'},{k:'หมวด',v:'ไซไฟ'},{k:'ภาษา',v:'อังกฤษ'},{k:'ความยาว',v:'496 หน้า'}] }
+];
+
+const GENRES = ['นิยาย','สารคดี','ไซไฟ'];
+const FILTERS = [
+  { name:'ทั่วไป', opts:[{id:'avail',label:'ว่างตอนนี้'},{id:'new',label:'เพิ่มใหม่'},{id:'popular',label:'ยอดนิยม'}] },
+  { name:'บอร์ดเกม', opts:[{id:'two',label:'เล่น 2 คน'},{id:'under30',label:'ไม่เกิน 30 นาที'},{id:'easy',label:'เรียนรู้ง่าย'}] },
+  { name:'หนังสือ', opts:[{id:'นิยาย',label:'นิยาย'},{id:'สารคดี',label:'สารคดี'},{id:'ไซไฟ',label:'ไซไฟ'}] }
+];
+
+class Component extends DCLogic {
+  state = {
+    screen: 'home', tab: 'home', prev: 'home',
+    cat: 'ทั้งหมด', query: '', filters: [], filterOpen: false,
+    selId: null, date: null, pickup: TODAY, returnId: null, toast: null, introOpen: true,
+    su: { name:'', unit:'', phone:'' }, suErr: null, isMember: false, me: null, ip: null, slot: 'เย็น', pickupSlot: 'เย็น',
+    rentals: [
+      { id:'r1', itemId:'azul', rented:'8 ส.ค.', due: addDays(TODAY, 2), status:'current' },
+      { id:'r2', itemId:'norwegian', rented:'11 ส.ค.', due: addDays(TODAY, 6), status:'current' },
+      { id:'r3', itemId:'dixit', rented:'20 ก.ค.', due: addDays(TODAY, -6), status:'current' },
+      { id:'r4', itemId:'sushigo', rented:'28 มิ.ย.', due: addDays(TODAY, -30), status:'past' },
+      { id:'r5', itemId:'alchemist', rented:'14 พ.ค.', due: addDays(TODAY, -70), status:'past' }
+    ],
+    rentTab: 'กำลังยืม',
+    pinOpen: false, pin: '', pinErr: false, adminOpen: false, pinTries: 0, lockUntil: null
+  };
+
+  resolveIp() {
+    let ip = localStorage.getItem('bb_ip');
+    const apply = val => {
+      const me = (readDB().members || []).filter(m => m.ip === val).pop();
+      this.setState(me ? { ip: val, me, isMember: true, introOpen: false } : { ip: val });
+    };
+    if (ip) { apply(ip); return; }
+    const fallback = () => {
+      const gen = '10.' + (Math.floor(Math.random() * 200) + 20) + '.' + Math.floor(Math.random() * 255) + '.' + (Math.floor(Math.random() * 250) + 2);
+      localStorage.setItem('bb_ip', gen); apply(gen);
+    };
+    try {
+      fetch('https://api.ipify.org?format=json').then(r => r.json()).then(d => {
+        if (d && d.ip) { localStorage.setItem('bb_ip', d.ip); apply(d.ip); } else fallback();
+      }).catch(fallback);
+    } catch (e) { fallback(); }
+  }
+  componentDidMount() {
+    this.resolveIp();
+    const unit = this.props.unit || 'B · 12-04';
+    const renter = this.props.adminName || 'Priya Raman';
+    if (!readDB().seeded) {
+      const items = {};
+      this.state.rentals.filter(r => r.status === 'current').forEach(r => {
+        items[r.itemId] = outRecord(r.due, renter, unit, r.rented);
+      });
+      writeDB({ seeded: true, items });
+    }
+    const sync = () => {
+      const db = readDB();
+      this.setState(st => {
+        const recs = db.items || {};
+        (db.custom || []).forEach(c => {
+          if (CATALOG.some(i => i.id === c.id)) return;
+          const isBook = c.type === 'Book';
+          CATALOG.push({ id:c.id, title:c.title, type: isBook ? BOOK : GAME, author: isBook ? c.sub : undefined,
+            meta:c.sub, short:c.sub, cover:c.cover, coverInk:'#2A241E', base:'available', tags:['new'],
+            desc:'เพิ่มเข้าคลังใหม่โดยผู้ดูแลตึก รับและคืนที่ล็อบบี้ตึก B ในช่วงส่งมอบปกติ',
+            facts:[{k:'ประเภท',v: isBook ? BOOK : GAME},{k:'รายละเอียด',v:c.sub},{k:'สถานะ',v:'เพิ่มใหม่'}] });
+        });
+        return {
+          prices: Object.assign({}, PRICE, db.prices),
+          dbItems: recs, removed: db.removed || [],
+          rentals: st.rentals.map(r => (r.status === 'current' && recs[r.itemId] && recs[r.itemId].status === 'shelf')
+            ? Object.assign({}, r, { status: 'past' }) : r)
+        };
+      });
+    };
+    sync();
+    this._onStore = e => { if (!e.key || e.key === DB_KEY) sync(); };
+    window.addEventListener('storage', this._onStore);
+    this._poll = setInterval(sync, 1200);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('storage', this._onStore);
+    clearInterval(this._poll);
+  }
+  lockLeft() {
+    const until = this.state.lockUntil;
+    return until ? Math.max(0, Math.ceil((until - Date.now()) / 1000)) : 0;
+  }
+  pressKey(label) {
+    if (this.lockLeft() > 0) return;
+    if (label === 'ล้าง') return this.setState({ pin: '', pinErr: false });
+    if (label === '⌫') return this.setState(st => ({ pin: st.pin.slice(0, -1), pinErr: false }));
+    this.setState(st => {
+      if (st.pin.length >= 6) return null;
+      const pin = st.pin + label;
+      if (pin.length < 6) return { pin, pinErr: false };
+      if (pin === '426842') {
+        setTimeout(() => this.setState({ pinOpen: false, pin: '', adminOpen: true, pinTries: 0, lockUntil: null }), 160);
+        return { pin, pinErr: false };
+      }
+      const tries = (st.pinTries || 0) + 1;
+      setTimeout(() => this.setState({ pin: '' }), 500);
+      if (tries >= 3) {
+        clearInterval(this._lockTick);
+        this._lockTick = setInterval(() => {
+          if (this.lockLeft() <= 0) { clearInterval(this._lockTick); this.setState({ lockUntil: null, pinTries: 0, pinErr: false }); }
+          else this.forceUpdate();
+        }, 1000);
+        return { pin, pinErr: true, pinTries: tries, lockUntil: Date.now() + 300000 };
+      }
+      return { pin, pinErr: true, pinTries: tries };
+    });
+  }
+
+  toast(msg) {
+    clearTimeout(this._t);
+    this.setState({ toast: msg });
+    this._t = setTimeout(() => this.setState({ toast: null }), 2600);
+  }
+  go = (screen, extra) => this.setState(s => Object.assign({ prev: s.screen, screen }, extra || {}));
+  statusOf(item) {
+    const mine = this.state.rentals.find(r => r.itemId === item.id && r.status === 'current');
+    if (mine) return 'rented';
+    const rec = (this.state.dbItems || {})[item.id];
+    if (rec) return rec.status === 'shelf' ? 'available' : 'rented';
+    return item.base;
+  }
+  deco(item) {
+    const st = this.statusOf(item);
+    const av = st === 'available';
+    const mine = this.state.rentals.find(r => r.itemId === item.id && r.status === 'current');
+    const rec = (this.state.dbItems || {})[item.id] || {};
+    const back = mine ? shortFmt(mine.due) : rec.dueISO ? shortFmt(new Date(rec.dueISO)) : (item.availFrom || 'เร็ว ๆ นี้');
+    return {
+      backLabel: back,
+      dot: av ? '#3F7D52' : '#B85C38',
+      statusInk: av ? '#3F7D52' : '#B85C38',
+      pillBg: av ? '#E4EFE5' : '#F6EAE3',
+      statusLabel: av ? 'ว่างให้ยืม' : 'ถูกยืมอยู่',
+      statusShort: av ? 'ว่าง' : 'ถูกยืม',
+      statusLong: av ? 'ว่างให้ยืมตอนนี้' : 'ถูกยืมอยู่ · กลับมา ' + back,
+      isAvailable: av, isRented: !av
+    };
+  }
+  card = item => {
+    const d = this.deco(item);
+    const price = (this.state.prices || PRICE)[item.id] || [500, 10];
+    const THEME = { midnight:'แฟนตาซีชีวิต', atomic:'พัฒนาตนเอง', alchemist:'ปรัชญาชีวิต', norwegian:'โรแมนติกดราม่า', hailmary:'ผจญภัยอวกาศ' };
+    return Object.assign({}, item, d, {
+      line: item.type + ' · ' + item.meta,
+      rateLabel: baht(price[1]) + ' ฿/วัน',
+      meta: item.type === BOOK && item.genre ? item.genre + ' · ' + (THEME[item.id] || 'ทั่วไป') : item.meta,
+      ctaLabel: d.isAvailable ? 'ยืมเลย' : 'แจ้งเตือน',
+      ctaBg: d.isAvailable ? (this.props.accent || '#B85C38') : 'transparent',
+      ctaInk: d.isAvailable ? '#FFFFFF' : '#2A241E',
+      ctaBd: d.isAvailable ? 'transparent' : '#DCCDB6',
+      open: () => this.go('detail', { selId: item.id }),
+      rent: () => d.isAvailable
+        ? this.go('checkout', { selId: item.id, date: addDays(TODAY, 3) })
+        : this.toast('เราจะแจ้งเตือนเมื่อ ' + item.title + ' กลับมาบนชั้น')
+    });
+  };
+  matches(item) {
+    const { cat, query, filters } = this.state;
+    if (cat === BOOK && item.type !== BOOK) return false;
+    if (cat === GAME && item.type !== GAME) return false;
+    const q = query.trim().toLowerCase();
+    if (q) {
+      const hay = [item.title, item.author, item.genre, item.type].filter(Boolean).join(' ').toLowerCase();
+      if (hay.indexOf(q) === -1) return false;
+    }
+    for (const f of filters) {
+      if (f === 'avail') { if (this.statusOf(item) !== 'available') return false; }
+      else if (GENRES.indexOf(f) > -1) { if (item.genre !== f) return false; }
+      else if ((item.tags || []).indexOf(f) === -1) return false;
+    }
+    return true;
+  }
+  toggleFilter = id => this.setState(s => ({ filters: s.filters.indexOf(id) > -1 ? s.filters.filter(f => f !== id) : s.filters.concat([id]) }));
+
+  renderVals() {
+    const s = this.state;
+    const accent = this.props.accent || '#B85C38';
+    const me = s.me;
+    const userName = (me && me.name) || this.props.userName || 'ปรียา รามัน';
+    const item = CATALOG.find(i => i.id === s.selId) || CATALOG[0];
+    const lockLeft = this.lockLeft();
+    const LIVE = CATALOG.filter(i => (s.removed || []).indexOf(i.id) < 0);
+    const results = LIVE.filter(i => this.matches(i));
+    const avail = LIVE.filter(i => this.statusOf(i) === 'available');
+    const chip = on => ({ bg: on ? '#2A241E' : '#FFFFFF', fg: on ? '#FAF6EF' : '#5C4A38', bd: on ? '#2A241E' : '#E4D9C8' });
+    const slotTime = s.slot === 'เช้า' ? '07:00–08:00 น.' : '19:00–20:00 น.';
+    const pickupSlotTime = s.pickupSlot === 'เช้า' ? '07:00–08:00 น.' : '19:00–20:00 น.';
+
+    const sameDay = (a, b) => a && b && a.getDate() === b.getDate() && a.getMonth() === b.getMonth();
+    const pickup = s.pickup || TODAY;
+    const pickupDates = [];
+    for (let n = 0; n <= 4; n++) {
+      const d = addDays(TODAY, n);
+      const on = sameDay(d, pickup);
+      pickupDates.push({
+        dow: n === 0 ? 'วันนี้' : DOW[d.getDay()], num: String(d.getDate()),
+        bg: on ? '#2A241E' : '#FFFFFF', bd: on ? '#2A241E' : '#E4D9C8',
+        fg: on ? '#FAF6EF' : '#2A241E', sub: on ? '#BCAE9B' : '#A8977F',
+        pick: () => this.setState(st => ({ pickup: d, date: st.date && st.date > d ? st.date : addDays(d, 3) }))
+      });
+    }
+
+    const dates = [];
+    for (let n = 1; n <= 12; n++) {
+      const d = addDays(pickup, n);
+      const on = s.date && d.getDate() === s.date.getDate() && d.getMonth() === s.date.getMonth();
+      dates.push({
+        dow: DOW[d.getDay()], num: String(d.getDate()),
+        bg: on ? '#2A241E' : '#FFFFFF', bd: on ? '#2A241E' : '#E4D9C8',
+        fg: on ? '#FAF6EF' : '#2A241E', sub: on ? '#BCAE9B' : '#A8977F',
+        pick: () => this.setState({ date: d })
+      });
+    }
+
+    const rentalList = s.rentals.filter(r => (s.rentTab === 'กำลังยืม' ? r.status === 'current' : r.status === 'past')).map(r => {
+      const it = CATALOG.find(i => i.id === r.itemId);
+      const days = Math.round((r.due - TODAY) / 86400000);
+      const past = r.status === 'past';
+      const over = days < 0, soon = days >= 0 && days <= 2;
+      return {
+        id: r.id, title: it.title, type: it.type, cover: it.cover, rented: r.rented,
+        due: shortFmt(r.due), isCurrent: !past,
+        left: past ? 'คืนตรงเวลา' : over ? 'เกินกำหนด ' + Math.abs(days) + ' วัน' : days === 0 ? 'ครบกำหนดวันนี้' : 'เหลืออีก ' + days + ' วัน',
+        leftInk: past ? '#8A7A66' : over ? '#B03A2E' : soon ? '#C08A2E' : '#3F7D52',
+        badge: past ? 'คืนแล้ว' : over ? 'เกินกำหนด' : soon ? 'ใกล้ครบกำหนด' : 'กำลังยืม',
+        badgeBg: past ? '#F0EBE2' : over ? '#F7E2DE' : soon ? '#F7EEDA' : '#E4EFE5',
+        badgeInk: past ? '#8A7A66' : over ? '#B03A2E' : soon ? '#9A6A18' : '#3F7D52',
+        open: () => this.go('detail', { selId: it.id }),
+        startReturn: () => this.setState({ returnId: r.id })
+      };
+    });
+
+    const ret = s.rentals.find(r => r.id === s.returnId);
+    const dco = this.deco(item);
+    const detailAvail = dco.isAvailable;
+    const showRentBar = s.screen === 'detail' || s.screen === 'checkout';
+    const chosen = s.date ? fmt(s.date) : 'ยังไม่ได้เลือกวัน';
+    const price = (s.prices || PRICE)[item.id] || [500, 10];
+    const deposit = price[0], perDay = price[1];
+    const days = s.date ? Math.max(1, Math.round((s.date - pickup) / 86400000)) : 1;
+    const rentFee = perDay * days;
+
+    return {
+      accent, userName, initials: userName.trim().charAt(0),
+      isHome: s.screen === 'home', isExplore: s.screen === 'explore', isSearch: s.screen === 'search',
+      isDetail: s.screen === 'detail', isCheckout: s.screen === 'checkout', isSuccess: s.screen === 'success',
+      isPayment: s.screen === 'payment',
+      payDays: days, payDeposit: baht(deposit), payRate: baht(perDay),
+      payRent: baht(rentFee), payTotal: baht(deposit + rentFee),
+      payRentLine: baht(perDay) + ' ฿ × ' + days + ' วัน',
+      payItemLine: item.type + ' · คืนภายใน ' + chosen,
+      confirmPay: () => this.setState({ prev: 'payment', screen: 'qr' }),
+      isQr: s.screen === 'qr',
+      downloadQr: () => {
+        const a = document.createElement('a');
+        a.href = './assets/promptpay-qr.jpg';
+        a.download = 'promptpay-' + (s.selId || 'rental') + '.jpg';
+        document.body.appendChild(a); a.click(); a.remove();
+        this.toast('บันทึก QR แล้ว · โอนได้เลย');
+      },
+      confirmSlip: () => {
+        const it = CATALOG.find(i => i.id === s.selId) || CATALOG[0];
+        const rentedTh = TODAY.getDate() + ' ' + MON[TODAY.getMonth()];
+        writeDB({ items: { [it.id]: outRecord(s.date || addDays(TODAY, 3), this.props.adminName || 'Priya Raman', this.props.unit || 'B · 12-04', enFmt(TODAY)) } });
+        this.setState(st => ({
+          prev: 'qr', screen: 'success',
+          rentals: [{ id: 'r' + Date.now(), itemId: it.id, rented: TODAY.getDate() + ' ' + MON[TODAY.getMonth()], due: st.date, status: 'current' }].concat(st.rentals)
+        }));
+      },
+      isRentals: s.screen === 'rentals', isProfile: s.screen === 'profile',
+      showNav: ['home','explore','rentals','profile'].indexOf(s.screen) > -1,
+      navs: [
+        ['home','หน้าแรก','M3 10.2 12 3.5l9 6.7','M5.4 9v10.5h13.2V9'],
+        ['explore','สำรวจ','M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14','M16.2 16.2 21 21'],
+        ['rentals','รายการยืม','M4 5.2A1.2 1.2 0 0 1 5.2 4H9a2.5 2.5 0 0 1 2.5 2.5V20A2.2 2.2 0 0 0 9.3 17.8H4Z','M20 5.2A1.2 1.2 0 0 0 18.8 4H15a2.5 2.5 0 0 0-2.5 2.5V20a2.2 2.2 0 0 1 2.2-2.2H20Z'],
+        ['profile','โปรไฟล์','M12 4a3.6 3.6 0 1 0 0 7.2A3.6 3.6 0 0 0 12 4','M4.8 20.2c0-3.4 3.2-5.6 7.2-5.6s7.2 2.2 7.2 5.6']
+      ].map(([id, label, path, path2]) => ({
+        label, path, path2, sw: s.screen === id ? 2.1 : 1.6,
+        fg: s.screen === id ? '#2A241E' : '#A8977F',
+        pick: () => this.go(id)
+      })),
+
+      bookCount: LIVE.filter(i => i.type === BOOK).length,
+      gameCount: LIVE.filter(i => i.type === GAME).length,
+      availCount: avail.length,
+      tonight: avail.slice(0, 5).map(this.card),
+      popular: LIVE.filter(i => (i.tags || []).indexOf('popular') > -1).map(this.card),
+      forTwo: LIVE.filter(i => (i.tags || []).indexOf('two') > -1).slice(0, 3).map(this.card),
+
+      cats: ['ทั้งหมด', BOOK, GAME].map(c => Object.assign({ label: c, pick: () => this.setState({ cat: c }) }, chip(s.cat === c))),
+      results: results.map(this.card),
+      hasResults: results.length > 0 && (s.screen !== 'search' || s.query.trim().length > 0),
+      noResults: results.length === 0,
+      resultCount: results.length + ' รายการ' + (s.filters.length ? ' · ' + s.filters.length + ' ตัวกรอง' : ''),
+      resultN: results.length,
+      filterBadge: s.filters.length ? '· ' + s.filters.length : '',
+      filterOpen: s.filterOpen,
+      filterGroups: FILTERS.map(g => ({ name: g.name, opts: g.opts.map(o => Object.assign({ label: o.label, toggle: () => this.toggleFilter(o.id) }, chip(s.filters.indexOf(o.id) > -1))) })),
+      openFilters: () => this.setState({ filterOpen: true }),
+      closeSheets: () => this.setState({ filterOpen: false, returnId: null }),
+      clearFilters: () => this.setState({ filters: [], cat: 'ทั้งหมด', query: '' }),
+
+      query: s.query, hasQuery: s.query.trim().length > 0, showRecents: s.query.trim().length === 0,
+      onQuery: e => this.setState({ query: e.target.value }),
+      suggestions: ['codenames','Murakami','ไซไฟ','บอร์ดเกม','หนังสือ','Azul'].map(l => ({ label: l, pick: () => this.setState({ query: l }) })),
+
+      item: Object.assign({}, item, this.deco(item)),
+      dates, pickupDates,
+      pickupSlots: [['เช้า','07:00–08:00 น.'],['เย็น','19:00–20:00 น.']].map(([name, time]) => {
+        const on = s.pickupSlot === name;
+        return { name, time, bg: on ? '#2A241E' : '#FFFFFF', bd: on ? '#2A241E' : '#E4D9C8', fg: on ? '#FAF6EF' : '#2A241E', sub: on ? '#BCAE9B' : '#7A6B5A', pick: () => this.setState({ pickupSlot: name }) };
+      }),
+      pickupLabel: fmt(pickup) + ' · ' + pickupSlotTime,
+      pickupHint: 'เลือกช่วงเวลารับของที่ล็อบบี้ตึก B',
+      dateHint: s.date ? 'คืน ' + chosen + ' · เลือกช่วงเวลาส่งมอบด้านล่าง' : 'ส่วนใหญ่เพื่อนบ้านยืมกันประมาณ 3–4 วัน',
+      chosenLabel: chosen + (s.date ? ' · ' + slotTime : ''),
+      slots: [['เช้า','07:00–08:00 น.'],['เย็น','19:00–20:00 น.']].map(([name, time]) => {
+        const on = s.slot === name;
+        return { name, time, bg: on ? '#2A241E' : '#FFFFFF', bd: on ? '#2A241E' : '#E4D9C8', fg: on ? '#FAF6EF' : '#2A241E', sub: on ? '#BCAE9B' : '#7A6B5A', pick: () => this.setState({ slot: name }) };
+      }),
+
+      showRentBar,
+      barCaption: s.screen === 'checkout' ? 'คืนภายใน' : detailAvail ? 'ช่วงส่งมอบ' : 'กลับมา',
+      barValue: s.screen === 'checkout' ? (s.date ? shortFmt(s.date) + ' · ' + slotTime : '—') : detailAvail ? '07:00 / 19:00 น.' : dco.backLabel,
+      barLabel: s.screen === 'checkout' ? 'ยืนยันการยืม' : detailAvail ? 'ยืมเล่มนี้' : 'แจ้งเตือนฉัน',
+      barBg: s.screen === 'checkout' && !s.date ? '#C6B7A3' : (detailAvail || s.screen === 'checkout' ? accent : '#2A241E'),
+      barAction: () => {
+        if (s.screen === 'checkout') {
+          if (!s.date) return this.toast('เลือกวันคืนก่อนนะ');
+          return this.go('payment');
+        }
+        if (detailAvail) return this.go('checkout', { date: addDays(TODAY, 3) });
+        this.toast('เราจะแจ้งเตือนเมื่อ ' + item.title + ' กลับมาบนชั้น');
+      },
+      rentCurrent: () => this.go('checkout', { date: addDays(TODAY, 3) }),
+      notifyMe: () => this.toast('เราจะแจ้งเตือนเมื่อ ' + item.title + ' กลับมาบนชั้น'),
+
+      rentTabs: ['กำลังยืม','ที่ผ่านมา'].map(t => Object.assign({ label: t, pick: () => this.setState({ rentTab: t }) }, chip(s.rentTab === t))),
+      rentalList, hasRentals: rentalList.length > 0, noRentals: rentalList.length === 0,
+      emptyTitle: s.rentTab === 'กำลังยืม' ? 'ยังไม่ได้ยืมอะไรเลย' : 'ยังไม่มีประวัติ',
+      emptyBody: s.rentTab === 'กำลังยืม' ? 'เมื่อคุณจองหนังสือหรือบอร์ดเกม รายการจะมาแสดงที่นี่พร้อมวันคืน' : 'รายการที่คืนแล้วจะถูกเก็บไว้ที่นี่ เผื่อคุณอยากย้อนดูว่าเคยชอบเล่มไหน',
+      currentCount: s.rentals.filter(r => r.status === 'current').length,
+      pastCount: s.rentals.filter(r => r.status === 'past').length,
+
+      returnOpen: !!ret,
+      returnTitle: ret ? CATALOG.find(i => i.id === ret.itemId).title : '',
+      returnDue: ret ? fmt(ret.due) : '',
+      confirmReturn: () => {
+        const title = CATALOG.find(i => i.id === ret.itemId).title;
+        writeDB({ items: { [ret.itemId]: { status: 'shelf', renter: '—', due: '—' } } });
+        this.setState(st => ({ returnId: null, rentTab: 'ที่ผ่านมา', rentals: st.rentals.map(r => r.id === st.returnId ? Object.assign({}, r, { status: 'past' }) : r) }));
+        this.toast('คืน ' + title + ' เรียบร้อย ขอบคุณนะ!');
+      },
+
+      myUnit: (me && me.unit) || 'ตึก B · ห้อง 12-04',
+      myPhone: (me && me.phone) || '08 1234 5678',
+      myJoined: (me && me.joined) || '—',
+      myIp: s.ip || 'กำลังตรวจสอบ…',
+      pinLocked: lockLeft > 0,
+      openPin: () => this.setState({ pinOpen: true, pin: '', pinErr: this.lockLeft() > 0 }),
+      closePin: () => this.setState({ pinOpen: false, pin: '', pinErr: false }),
+      exitAdmin: () => this.setState({ adminOpen: false }),
+      adminOpen: s.adminOpen,
+      pinOpen: s.pinOpen,
+      pinHint: lockLeft > 0
+        ? 'ใส่ PIN ผิด 3 ครั้ง · ลองใหม่ได้ในอีก ' + Math.floor(lockLeft / 60) + ':' + String(lockLeft % 60).padStart(2, '0') + ' นาที'
+        : s.pinErr ? 'PIN ไม่ถูกต้อง เหลืออีก ' + Math.max(0, 3 - (s.pinTries || 0)) + ' ครั้ง' : 'ใส่รหัส 6 หลักที่ได้รับจากนิติบุคคล',
+      pinHintInk: s.pinErr || lockLeft > 0 ? '#B03A2E' : '#7A6B5A',
+      pinDots: [0,1,2,3,4,5].map(n => ({
+        ch: s.pin[n] ? '•' : '',
+        bd: s.pinErr ? '#E0B4AC' : s.pin.length === n ? '#2A241E' : '#E4D9C8',
+        bg: s.pin[n] ? '#F2EBDF' : '#FFFFFF'
+      })),
+      keys: ['1','2','3','4','5','6','7','8','9','ล้าง','0','⌫'].map(label => {
+        const isNum = /^[0-9]$/.test(label);
+        const off = lockLeft > 0;
+        return {
+          label, size: isNum ? '21px' : '13px',
+          bg: isNum ? (off ? '#F2EBDF' : '#FFFFFF') : 'transparent', bd: isNum && !off ? '#E4D9C8' : 'transparent',
+          fg: off ? '#C4B49E' : isNum ? '#2A241E' : '#8A7A66',
+          press: () => this.pressKey(label)
+        };
+      }),
+      introOpen: s.introOpen && s.screen === 'home',
+      closeIntro: () => this.setState({ introOpen: false }),
+      needSignup: !s.isMember, isMember: !!s.isMember,
+      suName: s.su.name, suUnit: s.su.unit, suPhone: s.su.phone,
+      suHint: s.suErr || 'ข้อมูลนี้ใช้ยืนยันตัวตนตอนรับของเท่านั้น',
+      suHintInk: s.suErr ? '#B03A2E' : '#A8977F',
+      onSuName: e => this.setState(st => ({ su: Object.assign({}, st.su, { name: e.target.value }), suErr: null })),
+      onSuUnit: e => this.setState(st => ({ su: Object.assign({}, st.su, { unit: e.target.value }), suErr: null })),
+      onSuPhone: e => this.setState(st => ({ su: Object.assign({}, st.su, { phone: e.target.value }), suErr: null })),
+      submitSignup: () => {
+        const su = this.state.su;
+        const name = su.name.trim(), unit = su.unit.trim();
+        if (!name || !unit) return this.setState({ suErr: 'กรอกชื่อและห้องก่อนนะ' });
+        const joined = TODAY.getDate() + ' ' + ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][TODAY.getMonth()] + ' ' + TODAY.getFullYear();
+        const me = { name, unit, phone: su.phone.trim() || '—', joined, ip: this.state.ip || localStorage.getItem('bb_ip') || '—' };
+        writeDB({ members: (readDB().members || []).filter(m => m.ip !== me.ip).concat([me]) });
+        this.setState({ isMember: true, introOpen: false, me });
+        this.toast('ยินดีต้อนรับ ' + name + ' · สมัครสมาชิกเรียบร้อย!');
+      },
+      toast: s.toast,
+      back: () => this.setState(st => ({ screen: st.prev === st.screen ? 'home' : st.prev })),
+      goHome: () => this.go('home'), goRentals: () => this.go('rentals', { rentTab: 'กำลังยืม' }),
+      goProfile: () => this.go('profile'), goSearch: () => this.go('search', { query: '' }),
+      goBooks: () => this.go('explore', { cat: BOOK, filters: [] }),
+      goGames: () => this.go('explore', { cat: GAME, filters: [] }),
+      goAvailable: () => this.go('explore', { cat: 'ทั้งหมด', filters: ['avail'] })
+    };
+  }
+}
+</script>
+</body>
+</html>
