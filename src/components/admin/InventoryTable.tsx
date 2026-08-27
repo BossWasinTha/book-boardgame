@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import type { Item } from "@/lib/types";
 import { useAdminUi } from "./AdminUiContext";
 import { useRealtimeRefetch } from "./useRealtimeRefetch";
-import { badgeFor, formatShortDate } from "./adminFormat";
+import { badgeFor, englishItemType, formatShortDate } from "./adminFormat";
 
 const FILTERS = ["All", "On shelf", "Rented", "Overdue", "Repair"] as const;
 type Filter = (typeof FILTERS)[number];
@@ -158,7 +158,7 @@ export default function InventoryTable({ initialItems }: { initialItems: Item[] 
                 </div>
               </div>
               <Cell label="Type">
-                <span className="text-[12.5px] text-ink-2">{item.itemType}</span>
+                <span className="text-[12.5px] text-ink-2">{englishItemType(item.itemType)}</span>
               </Cell>
               <Cell label="Deposit ฿">
                 <input

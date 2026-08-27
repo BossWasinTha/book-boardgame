@@ -44,3 +44,6 @@ next-env.d.ts
 # local dev-server helpers (machine-specific paths)
 dev.cmd
 .claude/launch.json
+
+.vercel
+.env*

@@ -29,6 +29,11 @@ export function formatLongDate(iso: string): string {
   return new Intl.DateTimeFormat("en-US", { day: "numeric", month: "long", year: "numeric" }).format(date);
 }
 
+/** The admin dashboard's chrome is in English; item_type is stored in Thai. */
+export function englishItemType(itemType: Item["itemType"]): string {
+  return itemType === "หนังสือ" ? "Book" : "Board Game";
+}
+
 export interface Badge {
   label: string;
   bg: string;
