@@ -4,8 +4,10 @@ import { cookies } from "next/headers";
 import { env } from "@/lib/env";
 
 const ADMIN_COOKIE = "bb_admin";
+// Server-side hard cap (defense in depth) — the cookie itself carries no
+// maxAge, so it's a browser-session cookie: closing the browser clears it
+// and the PIN is required again next visit, by design (admin preference).
 const ADMIN_TTL = "12h";
-const ADMIN_MAX_AGE = 60 * 60 * 12;
 
 function secretKey() {
   return new TextEncoder().encode(env.sessionSecret);
@@ -23,7 +25,6 @@ export async function setAdminCookie() {
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
-    maxAge: ADMIN_MAX_AGE,
   });
 }
 

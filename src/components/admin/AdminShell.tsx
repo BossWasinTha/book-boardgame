@@ -134,6 +134,8 @@ function ShellInner({ children, initialCounts }: { children: ReactNode; initialC
           })}
         </nav>
 
+        <LogoutButton />
+
         <div className="mt-auto p-[14px] rounded-xl bg-[#352E27] flex flex-col gap-[5px] max-[1180px]:hidden">
           <div className="text-[11px] tracking-[0.07em] font-bold text-ink-4">HANDOVER WINDOWS</div>
           <div className="text-[12.5px] text-[#D9CEBD] leading-[1.6]">
@@ -179,6 +181,29 @@ function ShellInner({ children, initialCounts }: { children: ReactNode; initialC
         </div>
       )}
     </div>
+  );
+}
+
+function LogoutButton() {
+  const router = useRouter();
+  const [loggingOut, setLoggingOut] = useState(false);
+
+  const logout = async () => {
+    setLoggingOut(true);
+    await fetch("/api/admin/logout", { method: "POST" });
+    router.push("/admin");
+    router.refresh();
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={logout}
+      disabled={loggingOut}
+      className="h-10 px-3 rounded-[9px] flex items-center gap-2 whitespace-nowrap text-[13.5px] font-medium text-[#C98A7D] hover:bg-[#413931] cursor-pointer disabled:opacity-60"
+    >
+      {loggingOut ? "Logging out…" : "Log out"}
+    </button>
   );
 }
 
