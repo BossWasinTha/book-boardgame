@@ -19,35 +19,32 @@ export async function POST(req: Request) {
   const { name, phone, unit, photoUrl } = parsed.data;
 
   const existingMemberId = await getMemberIdFromCookies();
-  let member;
-  let matchedExisting = false;
 
-  if (existingMemberId) {
-    member = await updateMember(existingMemberId, {
-      name,
-      phone,
-      unit: unit || null,
-      photoUrl: photoUrl || null,
-    });
-  } else {
-    // No session yet — if this phone number is already registered (e.g. the
-    // customer is signing up again from a new device), log them into that
-    // existing account instead of creating a duplicate.
-    const found = await findMemberByPhone(phone);
-    if (found) {
-      member = found;
-      matchedExisting = true;
-    } else {
-      member = await createMember({
+  // Phone numbers are unique across members. Reject if this number already
+  // belongs to someone else (a different member than the one editing, if any).
+  const existingOwner = await findMemberByPhone(phone);
+  if (existingOwner && existingOwner.id !== existingMemberId) {
+    return NextResponse.json(
+      { error: "เบอร์นี้มีอยู่ในระบบแล้ว กรุณาใช้เบอร์อื่น" },
+      { status: 409 },
+    );
+  }
+
+  const member = existingMemberId
+    ? await updateMember(existingMemberId, {
+        name,
+        phone,
+        unit: unit || null,
+        photoUrl: photoUrl || null,
+      })
+    : await createMember({
         name,
         phone,
         unit: unit || null,
         photoUrl: photoUrl || null,
         signupIp: getRequestIp(req),
       });
-    }
-  }
 
   await setMemberCookie(member.id);
-  return NextResponse.json({ member, editing: Boolean(existingMemberId), matchedExisting });
+  return NextResponse.json({ member, editing: Boolean(existingMemberId) });
 }

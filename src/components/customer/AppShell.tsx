@@ -222,7 +222,6 @@ export function AppShell({
         return;
       }
       const wasEditing = Boolean(member);
-      const matchedExisting = Boolean(json.matchedExisting);
       setMember(json.member);
       setIntroOpen(false);
       setSignupMode(false);
@@ -231,13 +230,7 @@ export function AppShell({
         setPendingRent(false);
         setPrevScreen("detail");
         setScreen("checkout");
-        toast(
-          matchedExisting
-            ? `ยินดีต้อนรับกลับมา ${json.member.name} · ยืนยันการยืมต่อได้เลย`
-            : "สมัครสมาชิกเรียบร้อย · ยืนยันการยืมต่อได้เลย",
-        );
-      } else if (matchedExisting) {
-        toast(`พบบัญชีเดิมด้วยเบอร์นี้ · ยินดีต้อนรับกลับมา ${json.member.name}`);
+        toast("สมัครสมาชิกเรียบร้อย · ยืนยันการยืมต่อได้เลย");
       } else if (wasEditing) {
         setScreen("profile");
         toast("บันทึกโปรไฟล์แล้ว");
