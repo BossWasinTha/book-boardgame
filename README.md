@@ -1,24 +1,39 @@
 # Books & Boardgame
 
-แอปเช่าหนังสือและบอร์ดเกม (ภาษาไทย) — mobile app + admin dashboard ในไฟล์เดียว
+Next.js + Supabase rebuild of the `design_handoff_books_boardgame/` prototype — a book/boardgame
+rental app for a condo building. Customer-facing app at `/`, admin dashboard at `/admin`.
 
-## ไฟล์
+## 1. Set up Supabase
 
-- `index.html` — ไฟล์ต้นฉบับ (ใช้ `support.js`) ← ไฟล์ที่ Vercel จะเสิร์ฟ
-- `support.js` — runtime
-- `offline.html` — เวอร์ชันไฟล์เดียวจบ ใช้ได้แบบ offline
-- `vercel.json` — ตั้งค่า static hosting
+1. Create a free project at [supabase.com](https://supabase.com).
+2. In the SQL editor, run `supabase/schema.sql`, then `supabase/seed.sql`.
+3. In **Project Settings → API**, copy the Project URL, `anon` key, and `service_role` key.
 
-## Deploy บน Vercel (ฟรี)
+## 2. Configure environment variables
 
-1. สร้าง repo ใหม่ใน GitHub (ตั้งเป็น **Private**) แล้วอัปโหลดไฟล์ในโฟลเดอร์นี้
-2. เข้า https://vercel.com → เข้าสู่ระบบด้วย GitHub → **Add New → Project**
-3. เลือก repo นี้ แล้วตั้งค่า:
-   - Framework Preset: **Other**
-   - Root Directory: `./` (หรือ `deploy` ถ้า push ทั้งโปรเจกต์)
-   - Build Command / Output Directory: เว้นว่างทั้งคู่
-4. กด **Deploy** → ได้ URL `https://<ชื่อโปรเจกต์>.vercel.app`
+```bash
+cp .env.local.example .env.local
+```
 
-## Admin
+Fill in the Supabase values from step 1, plus:
+- `SESSION_SECRET` — any long random string (`openssl rand -base64 32`), used to sign the member/admin session cookies.
+- `ADMIN_PIN` — the 6-digit PIN for `/admin`.
 
-กดปุ่ม admin แล้วใส่ PIN (ผิด 3 ครั้ง ล็อก 5 นาที)
+## 3. Run it
+
+```bash
+npm install
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) for the customer app, or
+[http://localhost:3000/admin](http://localhost:3000/admin) for the admin dashboard (PIN from `.env.local`).
+
+## Notes
+
+- Realtime sync (Supabase `postgres_changes`) keeps the customer app and admin dashboard in sync across
+  devices — no polling.
+- Member auth is a signed httpOnly session cookie set after a name+phone signup — see the migration
+  README in `design_handoff_books_boardgame/README.md` for the full rationale and what's intentionally
+  deferred (OTP/LINE Login, etc.) from this first pass.
+- Profile photos upload to the Supabase Storage `avatars` bucket (created by `schema.sql`).
