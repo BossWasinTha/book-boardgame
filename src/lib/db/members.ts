@@ -36,6 +36,26 @@ export async function getMember(id: string): Promise<Member | null> {
   return data ? mapMember(data as MemberRow) : null;
 }
 
+function normalizePhone(phone: string): string {
+  return phone.replace(/\D/g, "");
+}
+
+/**
+ * Looks up an existing member by phone number (digits-only comparison, so
+ * "081-234-5678" matches "0812345678"). Used to recognize a returning
+ * customer signing up again from a new device instead of creating a
+ * duplicate member.
+ */
+export async function findMemberByPhone(phone: string): Promise<Member | null> {
+  const normalized = normalizePhone(phone);
+  if (!normalized) return null;
+  const db = supabaseAdmin();
+  const { data, error } = await db.from("members").select("*").is("deleted_at", null);
+  if (error) throw error;
+  const match = (data as MemberRow[]).find((m) => normalizePhone(m.phone) === normalized);
+  return match ? mapMember(match) : null;
+}
+
 export interface UpsertMemberInput {
   name: string;
   phone: string;
